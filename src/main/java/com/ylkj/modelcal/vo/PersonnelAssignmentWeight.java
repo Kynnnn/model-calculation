@@ -37,7 +37,7 @@ public class PersonnelAssignmentWeight {
     /**
      * 从业年限
      */
-    private Integer workingAge;
+    private String workingAge;
 
     /**
      * 从业年限权重

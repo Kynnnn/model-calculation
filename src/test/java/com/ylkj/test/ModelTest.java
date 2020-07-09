@@ -3,6 +3,7 @@ package com.ylkj.test;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.ylkj.modelcal.vo.Employee;
+import com.ylkj.modelcal.vo.PersonnelAssignmentWeight;
 import org.apache.poi.hssf.usermodel.HSSFCell;
 import org.apache.poi.hssf.usermodel.HSSFRow;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
@@ -26,9 +27,12 @@ public class ModelTest {
         HSSFWorkbook wb = new HSSFWorkbook(input);
 
         //员工表数据注入VO
-        List<Employee> employees = setVO(wb, 1, Employee.class, new int[]{2, 4, 5, 6});
+        // List<Employee> employees = setVO(wb, 1, Employee.class, new int[]{2, 4, 5, 6});
 
-
+        //人员赋值及权重
+        List<PersonnelAssignmentWeight> personnelAssignmentWeights = setVO(wb, 4, PersonnelAssignmentWeight.class, null);
+        String s = JSON.toJSONString(personnelAssignmentWeights);
+        System.out.println(s);
 
     }
 
@@ -60,9 +64,36 @@ public class ModelTest {
                         String[] split = declaredFields[j].getType().getName().split("\\.");
                         String type = split[split.length - 1];
                         if ("Integer".equals(type)) {
-                            object.put(declaredFields[j].getName(), Double.valueOf(cell.getStringCellValue()));
+                            try {
+                                object.put(declaredFields[j].getName(), Double.valueOf(cell.getStringCellValue()));
+                            } catch (Exception e) {
+                                object.put(declaredFields[j].getName(), null);
+                            }
                         } else if ("String".equals(type)) {
                             object.put(declaredFields[j].getName(), cell.getStringCellValue());
+                        }
+                    }
+                    T t = JSON.toJavaObject(object, clazz);
+                    voList.add(t);
+                } else {
+                    int cellNum = row.getPhysicalNumberOfCells();
+                    for (int a = 0; a < cellNum; a++) {
+                        HSSFCell cell = row.getCell(a);
+                        cell.setCellType(Cell.CELL_TYPE_STRING);
+                        String[] split = declaredFields[a].getType().getName().split("\\.");
+                        String type = split[split.length - 1];
+                        if ("Integer".equals(type) || "Double".equals(type)) {
+                            try {
+                                object.put(declaredFields[a].getName(), Double.valueOf(cell.getStringCellValue()));
+                            } catch (Exception e) {
+                                object.put(declaredFields[a].getName(), -9999);
+                            }
+                        } else if ("String".equals(type)) {
+                            if(cell.getStringCellValue().equals("-")){
+                                object.put(declaredFields[a].getName(), "-9999");
+                            }else{
+                                object.put(declaredFields[a].getName(), cell.getStringCellValue());
+                            }
                         }
                     }
                     T t = JSON.toJavaObject(object, clazz);
@@ -70,7 +101,6 @@ public class ModelTest {
                 }
             }
         }
-        System.out.println(JSON.toJSONString(voList));
         return voList;
     }
 
