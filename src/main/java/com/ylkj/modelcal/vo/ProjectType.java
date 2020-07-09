@@ -11,7 +11,7 @@ public class ProjectType {
     /**
      * 工程类型名称
      */
-    private  Double ProjectTypeName;
+    private  String ProjectTypeName;
     /**
      * 投资占比
      */
