@@ -36,29 +36,29 @@ public class QuarterlyQuantitiesBearing {
 
     //月承载力饱和度1-12月
 
-    private  Double JanuaryBearingCapacitySaturation;
+    private  String JanuaryBearingCapacitySaturation;
 
-    private  Double FebruaryBearingCapacitySaturation;
+    private  String FebruaryBearingCapacitySaturation;
 
-    private  Double MarchBearingCapacitySaturation;
+    private  String MarchBearingCapacitySaturation;
 
-    private  Double AprilBearingCapacitySaturation;
+    private  String AprilBearingCapacitySaturation;
 
-    private  Double MayBearingCapacitySaturation;
+    private  String MayBearingCapacitySaturation;
 
-    private  Double JuneBearingCapacitySaturation;
+    private  String JuneBearingCapacitySaturation;
 
-    private  Double JulyBearingCapacitySaturation;
+    private  String JulyBearingCapacitySaturation;
 
-    private  Double AugustBearingCapacitySaturation;
+    private  String AugustBearingCapacitySaturation;
 
-    private  Double SeptemberBearingCapacitySaturation;
+    private  String SeptemberBearingCapacitySaturation;
 
-    private  Double OctoberBearingCapacitySaturation;
+    private  String OctoberBearingCapacitySaturation;
 
-    private  Double NovemberBearingCapacitySaturation;
+    private  String NovemberBearingCapacitySaturation;
 
-    private  Double DecemberBearingCapacitySaturation;
+    private  String DecemberBearingCapacitySaturation;
 
     //季度工程 1-4季度
     private  Double QuarterlyEngineering1;
@@ -70,13 +70,13 @@ public class QuarterlyQuantitiesBearing {
     private  Double QuarterlyEngineering4;
 
     //季度承载力饱和度 1-4季度
-    private  Double QuarterlyBearingCapacitySaturation1;
+    private  String QuarterlyBearingCapacitySaturation1;
 
-    private  Double QuarterlyBearingCapacitySaturation2;
+    private  String QuarterlyBearingCapacitySaturation2;
 
-    private  Double QuarterlyBearingCapacitySaturation3;
+    private  String QuarterlyBearingCapacitySaturation3;
 
-    private  Double QuarterlyBearingCapacitySaturation4;
+    private  String QuarterlyBearingCapacitySaturation4;
 
     //实际承载力 1-4季度
     private  Double ActualBearingCapacity1;

@@ -15,11 +15,11 @@ public class ProjectType {
     /**
      * 投资占比
      */
-    private  Double ProportionOfInvestment;
+    private  String ProportionOfInvestment;
     /**
      *工程量占比
      */
-    private  Double ProportionOfWorkQuantity;
+    private  String ProportionOfWorkQuantity;
     /**
      * 工程调整系数
      */
