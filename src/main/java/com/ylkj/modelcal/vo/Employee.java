@@ -11,7 +11,6 @@ import lombok.Data;
 @Data
 public class Employee {
 
-
     /**
      * 岗位
      */
@@ -21,7 +20,6 @@ public class Employee {
      * 从业年限
      */
     private Integer workingAge;
-
 
     /**
      * 职业资格

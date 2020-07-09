@@ -25,11 +25,12 @@ public class ModelTest {
         FileInputStream input = new FileInputStream("C:\\Users\\朱迪炜\\Desktop\\模型计算.xls");
         HSSFWorkbook wb = new HSSFWorkbook(input);
 
-        //
-        List<Employee> objectList = setVO(wb, 1, Employee.class, new int[]{2, 4, 5, 6});
+        //员工表数据注入VO
+        List<Employee> employees = setVO(wb, 1, Employee.class, new int[]{2, 4, 5, 6});
+
+
 
     }
-
 
     /**
      * 为VO赋值
@@ -54,7 +55,6 @@ public class ModelTest {
                 object = new JSONObject();
                 if (cellStr != null && cellStr.length > 0) {
                     for (int j = 0; j < cellStr.length; j++) {
-
                         HSSFCell cell = row.getCell(cellStr[j]);
                         cell.setCellType(Cell.CELL_TYPE_STRING);
                         String[] split = declaredFields[j].getType().getName().split("\\.");
