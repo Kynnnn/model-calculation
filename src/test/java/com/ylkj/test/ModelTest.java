@@ -52,7 +52,10 @@ public class ModelTest {
         employees = calEmployee(employees, personnelAssignmentWeights);
 
         //2.计算 工程明细表
-        projectDetails= calProjectDetails(projectDetails);
+        projectDetails = calProjectDetails(projectDetails);
+
+        //3.计算 工程类型
+        List<ProjectType> projectTypeList = calProjectType(projectDetails);
     }
 
     /**
@@ -164,18 +167,18 @@ public class ModelTest {
                 projectDetails.setCalJuly(0 * projectDetails.getQuantityConversion());
             }
             //循环出每个工程 八月份
-            if (projectDetails.getAugus().equals("是")) {
+            if (projectDetails.getAugust().equals("是")) {
                 //如果百分位是0的话默认为0.0
                 if (b.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue() == 0) {
 
                     //八月
-                    projectDetails.setCalAugus(0.0);
+                    projectDetails.setCalAugust(0.0);
                 }
                 //四舍五入
-                projectDetails.setCalAugus(b.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue());
+                projectDetails.setCalAugust(b.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue());
 
             } else {
-                projectDetails.setCalAugus(0 * projectDetails.getQuantityConversion());
+                projectDetails.setCalAugust(0 * projectDetails.getQuantityConversion());
             }
             //循环出每个工程 九月份
             if (projectDetails.getSeptember().equals("是")) {
@@ -308,37 +311,16 @@ public class ModelTest {
         return employeeList;
     }
 
-
     /**
      * 计算季度工程量及承载力
+     *
      * @return
      */
     public QuarterlyQuantitiesBearing calQuarterlyQuantitiesBearing() throws Exception {
 
 
-
-
-
-
-
-
-
-
         return null;
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
 
     /**
      * 为VO赋值
@@ -411,6 +393,100 @@ public class ModelTest {
             }
         }
         return voList;
+    }
+
+    /**
+     * 计算 工程类型
+     *
+     * @param projectDetails
+     * @return
+     * @author 朱迪炜
+     */
+    public List<ProjectType> calProjectType(List<ProjectDetails> projectDetails) {
+
+        /**
+         * 工程合同款综合
+         */
+        Double totalAmount = 0D;
+
+        /**
+         * 高压线路工程 工程合同款总和
+         */
+        Double highLineAmount = 0D;
+
+        /**
+         * 高压变电工程 工程合同款总和
+         */
+        Double highVoltageAmount = 0D;
+        /**
+         * 中低压配网工程 工程合同款总和
+         */
+        Double lowVoltageAmount = 0D;
+
+        /**
+         * 总工程量
+         */
+        Double totalQuantities = 0D;
+
+        /**
+         * 高压线路工程 工程量
+         */
+        Double highLineQuantities = 0D;
+
+        /**
+         * 高压变电工程 工程量
+         */
+        Double highVoltageQuantities = 0D;
+
+        /**
+         * 中低压配网工程 工程量
+         */
+        Double lowVoltageQuantities = 0D;
+
+
+        List<ProjectType> projectTypeList = new ArrayList<ProjectType>();
+
+        //根据工程类型的不同，将工程合同款分别叠加
+        for (ProjectDetails projectDetail : projectDetails) {
+            totalAmount += projectDetail.getProjectContractAmount();
+            totalQuantities += projectDetail.getQuantityConversion();
+            if ("高压线路工程".equals(projectDetail.getProjectType())) {
+                highLineAmount += projectDetail.getProjectContractAmount();
+                highLineQuantities += projectDetail.getQuantityConversion();
+            }
+            if ("高压变电工程".equals(projectDetail.getProjectType())) {
+                highVoltageAmount += projectDetail.getProjectContractAmount();
+                highVoltageQuantities += projectDetail.getQuantityConversion();
+            }
+            if ("中低压配网工程".equals(projectDetail.getProjectType())) {
+                lowVoltageAmount += projectDetail.getProjectContractAmount();
+                lowVoltageQuantities += projectDetail.getQuantityConversion();
+            }
+        }
+
+        //给每种工程类型赋值
+        ProjectType projectType = new ProjectType();
+        projectType.setProjectTypeName("高压线路工程");
+        projectType.setProportionOfInvestment(String.format("%.2f", (highLineAmount / totalAmount) * 100) + "%");
+        projectType.setProportionOfWorkQuantity(String.format("%.2f", (highLineQuantities / totalQuantities) * 100) + "%");
+        projectType.setEngineeringAdjustmentCoefficient(Double.valueOf(String.format("%.2f", (highLineAmount / totalAmount + highLineQuantities / totalQuantities) / 2)));
+        projectTypeList.add(projectType);
+
+        projectType = new ProjectType();
+        projectType.setProjectTypeName("高压变电工程");
+        projectType.setProportionOfInvestment(String.format("%.2f", (highVoltageAmount / totalAmount) * 100) + "%");
+        projectType.setProportionOfWorkQuantity(String.format("%.2f", (highVoltageQuantities / totalQuantities) * 100) + "%");
+        projectType.setEngineeringAdjustmentCoefficient(Double.valueOf(String.format("%.2f", (highVoltageAmount / totalAmount + highVoltageQuantities / totalQuantities) / 2)));
+        projectTypeList.add(projectType);
+
+        projectType = new ProjectType();
+        projectType.setProjectTypeName("中低压配网工程");
+        projectType.setProportionOfInvestment(String.format("%.2f", (lowVoltageAmount / totalAmount) * 100) + "%");
+        projectType.setProportionOfWorkQuantity(String.format("%.2f", (lowVoltageQuantities / totalQuantities) * 100) + "%");
+        projectType.setEngineeringAdjustmentCoefficient(Double.valueOf(String.format("%.2f", (lowVoltageAmount / totalAmount + lowVoltageQuantities / totalQuantities) / 2)));
+        projectTypeList.add(projectType);
+
+        return projectTypeList;
     }
 
 }

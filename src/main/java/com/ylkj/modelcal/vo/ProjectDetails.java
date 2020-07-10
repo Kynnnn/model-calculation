@@ -9,7 +9,7 @@ import lombok.Data;
 public class ProjectDetails {
 
     // 1-12 月 (是或否)
-    private  String January;
+    private  String january;
 
     private  String February;
 
@@ -23,7 +23,7 @@ public class ProjectDetails {
 
     private  String July;
 
-    private  String Augus;
+    private  String August;
 
     private  String September;
 
@@ -32,42 +32,51 @@ public class ProjectDetails {
     private  String November;
 
     private  String December;
+
     /**
      * 电压等级（kV）
      */
-    private Integer VoltageLevel;
+    private Integer voltageLevel;
+
+    /**
+     * 工程类别
+     */
+    private String projectType;
+
     /**
      * 工程合同额(万元）
      */
-    private Double ProjectContractAmount;
+    private Double projectContractAmount;
 
     /**
      * 工程量折算(计算)
      */
-    private Double QuantityConversion;
+    private Double quantityConversion;
 
-    // 1-12 月金额
-    private  Double CalJanuary;
+    /**
+     * 1-12月金额
+     */
+    private  Double calJanuary;
 
-    private  Double CalFebruary;
+    private  Double calFebruary;
 
-    private  Double CalMarch;
+    private  Double calMarch;
 
-    private  Double CalApril;
+    private  Double calApril;
 
-    private  Double CalMay;
+    private  Double calMay;
 
-    private  Double CalJune;
+    private  Double calJune;
 
-    private  Double CalJuly;
+    private  Double calJuly;
 
-    private  Double CalAugus;
+    private  Double calAugust;
 
-    private  Double CalSeptember;
+    private  Double calSeptember;
 
-    private  Double CalOctober;
+    private  Double calOctober;
 
-    private  Double CalNovember;
+    private  Double calNovember;
 
-    private  Double CalDecember;
+    private  Double calDecember;
 }
