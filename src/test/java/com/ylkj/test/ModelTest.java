@@ -54,9 +54,6 @@ public class ModelTest {
      * @param cellStr 需要取的cell的索引
      */
     public <T> List<T> setVO(HSSFWorkbook wb, int index, Class<T> clazz, int[] cellStr) {
-        System.out.println("==================");
-        System.out.println("VO类名称：" + clazz.getName());
-        System.out.println("cellStr: " + cellStr);
         List<T> voList = new ArrayList<T>();
         JSONObject object;
         Field[] declaredFields = clazz.getDeclaredFields();
@@ -72,10 +69,7 @@ public class ModelTest {
                 if (cellStr != null) {
                     for (int j = 0; j < cellStr.length; j++) {
                         HSSFCell cell = row.getCell(cellStr[j]);
-                        System.out.println("第：" + j + " 行");
-                        System.out.println("cell类型前：" + cell.getCellType());
                         cell.setCellType(Cell.CELL_TYPE_STRING);
-                        System.out.println("cell类型后：" + cell.getCellType());
                         String[] split = declaredFields[j].getType().getName().split("\\.");
                         String type = split[split.length - 1];
                         if ("".equals(cell.getStringCellValue())) {
