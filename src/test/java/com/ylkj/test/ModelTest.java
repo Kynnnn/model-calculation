@@ -52,7 +52,7 @@ public class ModelTest {
         employees = calEmployee(employees, personnelAssignmentWeights);
 
         //2.计算 工程明细表
-        calProjectDetails(projectDetails);
+        projectDetails= calProjectDetails(projectDetails);
     }
 
     /**
@@ -307,6 +307,38 @@ public class ModelTest {
         }
         return employeeList;
     }
+
+
+    /**
+     * 计算季度工程量及承载力
+     * @return
+     */
+    public QuarterlyQuantitiesBearing calQuarterlyQuantitiesBearing() throws Exception {
+
+
+
+
+
+
+
+
+
+
+        return null;
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     /**
      * 为VO赋值
