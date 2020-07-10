@@ -3,7 +3,7 @@ package com.ylkj.modelcal.vo;
 import lombok.Data;
 
 /**
- * 电压等级折算系数
+ * 工程量折算系数
  */
 @Data
 public class ConversionCoefficientQuantities {
