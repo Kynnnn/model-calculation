@@ -61,6 +61,8 @@ public class ModelTest {
 
         //5.计算 配网工程项目部人员构成指标
         List<DistributionNetwork> distributionNetworkList = calDistributionNetwork(employees);
+        // System.out.println("===================");
+        // System.out.println(JSON.toJSONString(distributionNetworkList));
 
         //6.计算 施工承载力
         List<ConstructionBearingCapacity> bearingCapacities = calConstructionBearingCapacity(projectTypeList, substationEngineeringList, distributionNetworkList);
@@ -69,7 +71,7 @@ public class ModelTest {
 
 
         //7.计算 季度工程量及承载力
-        List<QuarterlyQuantitiesBearing> QuarterlyQuantitiesBearing = calQuarterlyQuantitiesBearing(projectDetails);
+        // List<QuarterlyQuantitiesBearing> QuarterlyQuantitiesBearing = calQuarterlyQuantitiesBearing(projectDetails);
 
     }
 
@@ -896,7 +898,7 @@ public class ModelTest {
         // 人员折算系数
         distributionNetwork.setPersonnel(personnel);
         // 理论人员指标
-        distributionNetwork.setTheory(Double.valueOf(String.format("%.2f", distributionNetwork.getTheoreticalValue() * distributionNetwork.getPersonnel())));
+        distributionNetwork.setTheory(Math.floor(distributionNetwork.getTheoreticalValue() * distributionNetwork.getPersonnel()));
         // 实际人员指标
         distributionNetwork.setActualPersonnel(Double.valueOf(String.format("%.2f", distributionNetwork.getActual() * distributionNetwork.getPersonnel())));
 
@@ -1014,9 +1016,9 @@ public class ModelTest {
         actualVoltage = projectTypeList.get(1).getEngineeringAdjustmentCoefficient() * actualVoltageMin;
 
         //配网标准工程承载力--理论指标值
-        theoreticalValueNetwork = projectTypeList.get(1).getEngineeringAdjustmentCoefficient() * theoreticalValueNetworkMin;
+        theoreticalValueNetwork = projectTypeList.get(2).getEngineeringAdjustmentCoefficient() * theoreticalValueNetworkMin;
         //配网标准工程承载力-实际指标值
-        actualNetwork = projectTypeList.get(1).getEngineeringAdjustmentCoefficient() * actualNetworkMin;
+        actualNetwork = projectTypeList.get(2).getEngineeringAdjustmentCoefficient() * actualNetworkMin;
 
         //企业施工承载力-理论指标值
         theoreticalValueConstruction = theoreticalValueLine + theoreticalValueVoltage + theoreticalValueNetwork;
