@@ -59,8 +59,13 @@ public class ModelTest {
         //4.计算 输变电工程项目部人员构成指标
         List<SubstationEngineering> substationEngineeringList = calSubstationEngineering(employees);
 
-        //7.计算季度工程量及承载力
-        List<QuarterlyQuantitiesBearing>  QuarterlyQuantitiesBearing =calQuarterlyQuantitiesBearing(projectDetails);
+        //5.计算 配网工程项目部人员构成指标
+        List<DistributionNetwork> distributionNetworkList = calDistributionNetwork(employees);
+        System.out.println("===============");
+        System.out.println(JSON.toJSONString(distributionNetworkList));
+
+        //7.计算 季度工程量及承载力
+        List<QuarterlyQuantitiesBearing> QuarterlyQuantitiesBearing = calQuarterlyQuantitiesBearing(projectDetails);
 
     }
 
@@ -78,12 +83,12 @@ public class ModelTest {
             //循环出每个工程 一月份
             if (projectDetails.getJanuary().equals("是")) {
                 //如果百分位是0的话默认为0.0
-                if (Double.parseDouble(String.format("%.2f",CalJanuary)) == 0) {
+                if (Double.parseDouble(String.format("%.2f", CalJanuary)) == 0) {
                     //一月
                     projectDetails.setCalJanuary(0.0);
                 }
                 //四舍五入
-                projectDetails.setCalJanuary(Double.parseDouble(String.format("%.3f",CalJanuary)));
+                projectDetails.setCalJanuary(Double.parseDouble(String.format("%.3f", CalJanuary)));
 
             } else {
                 projectDetails.setCalJanuary(0 * projectDetails.getQuantityConversion());
@@ -324,84 +329,83 @@ public class ModelTest {
      * @return
      */
     public List<QuarterlyQuantitiesBearing> calQuarterlyQuantitiesBearing(List<ProjectDetails> projectDetails) throws Exception {
-        QuarterlyQuantitiesBearing quarterlyQuantitiesBearing =new QuarterlyQuantitiesBearing();
+        QuarterlyQuantitiesBearing quarterlyQuantitiesBearing = new QuarterlyQuantitiesBearing();
         //取出工程信息数据
-        Double Sum1=0.0;
-        Double Sum2=0.0;
-        Double Sum3=0.0;
-        Double Sum4=0.0;
-        Double Sum5=0.0;
-        Double Sum6=0.0;
-        Double Sum7=0.0;
-        Double Sum8=0.0;
-        Double Sum9=0.0;
-        Double Sum10=0.0;
-        Double Sum11=0.0;
-        Double Sum12=0.0;
+        Double Sum1 = 0.0;
+        Double Sum2 = 0.0;
+        Double Sum3 = 0.0;
+        Double Sum4 = 0.0;
+        Double Sum5 = 0.0;
+        Double Sum6 = 0.0;
+        Double Sum7 = 0.0;
+        Double Sum8 = 0.0;
+        Double Sum9 = 0.0;
+        Double Sum10 = 0.0;
+        Double Sum11 = 0.0;
+        Double Sum12 = 0.0;
         for (ProjectDetails projectDetail : projectDetails) {
             //一月
-            Double SumJanuary=projectDetail.getCalJanuary();
+            Double SumJanuary = projectDetail.getCalJanuary();
             //二月
-            Double SumFebruary=projectDetail.getCalFebruary();
+            Double SumFebruary = projectDetail.getCalFebruary();
             //三月
-            Double SumMarch=projectDetail.getCalMarch();
+            Double SumMarch = projectDetail.getCalMarch();
             //四月
-            Double SumApril=projectDetail.getCalApril();
+            Double SumApril = projectDetail.getCalApril();
             //五月
-            Double SumMay=projectDetail.getCalMay();
+            Double SumMay = projectDetail.getCalMay();
             //六月
-            Double SumJune=projectDetail.getCalJune();
+            Double SumJune = projectDetail.getCalJune();
             //七月
-            Double SumJuly=projectDetail.getCalJuly();
+            Double SumJuly = projectDetail.getCalJuly();
             //八月
-            Double SumAugust=projectDetail.getCalAugust();
+            Double SumAugust = projectDetail.getCalAugust();
             //九月
-            Double SumSeptember=projectDetail.getCalSeptember();
+            Double SumSeptember = projectDetail.getCalSeptember();
             //十月
-            Double SumOctober=projectDetail.getCalOctober();
+            Double SumOctober = projectDetail.getCalOctober();
             //十一月
-            Double SumNovember=projectDetail.getCalNovember();
+            Double SumNovember = projectDetail.getCalNovember();
             //十二月
-            Double SumDecember=projectDetail.getCalDecember();
+            Double SumDecember = projectDetail.getCalDecember();
 
 
-
-            Sum1+=SumJanuary;
-            Sum2+=SumFebruary;
-            Sum3+=SumMarch;
-            Sum4+=SumApril;
-            Sum5+=SumMay;
-            Sum6+=SumJune;
-            Sum7+=SumJuly;
-            Sum8+=SumAugust;
-            Sum9+=SumSeptember;
-            Sum10+=SumOctober;
-            Sum11+=SumNovember;
-            Sum12+=SumDecember;
+            Sum1 += SumJanuary;
+            Sum2 += SumFebruary;
+            Sum3 += SumMarch;
+            Sum4 += SumApril;
+            Sum5 += SumMay;
+            Sum6 += SumJune;
+            Sum7 += SumJuly;
+            Sum8 += SumAugust;
+            Sum9 += SumSeptember;
+            Sum10 += SumOctober;
+            Sum11 += SumNovember;
+            Sum12 += SumDecember;
         }
         //月工程量
-        quarterlyQuantitiesBearing.setJanuaryEngineering(Double.parseDouble(String.format("%.2f",Sum1)));
+        quarterlyQuantitiesBearing.setJanuaryEngineering(Double.parseDouble(String.format("%.2f", Sum1)));
 
-        quarterlyQuantitiesBearing.setFebruaryEngineering(Double.parseDouble(String.format("%.2f",Sum2)));
-        quarterlyQuantitiesBearing.setMarchEngineering(Double.parseDouble(String.format("%.2f",Sum3)));
-        quarterlyQuantitiesBearing.setAprilEngineering(Double.parseDouble(String.format("%.2f",Sum4)));
-        quarterlyQuantitiesBearing.setMayEngineering(Double.parseDouble(String.format("%.2f",Sum5)));
-        quarterlyQuantitiesBearing.setJuneEngineering(Double.parseDouble(String.format("%.2f",Sum6)));
-        quarterlyQuantitiesBearing.setJulyEngineering(Double.parseDouble(String.format("%.2f",Sum7)));
-        quarterlyQuantitiesBearing.setAugustEngineering(Double.parseDouble(String.format("%.2f",Sum8)));
-        quarterlyQuantitiesBearing.setSeptemberEngineering(Double.parseDouble(String.format("%.2f",Sum9)));
-        quarterlyQuantitiesBearing.setOctoberEngineering(Double.parseDouble(String.format("%.2f",Sum10)));
-        quarterlyQuantitiesBearing.setNovemberEngineering(Double.parseDouble(String.format("%.2f",Sum11)));
-        quarterlyQuantitiesBearing.setDecemberEngineering(Double.parseDouble(String.format("%.2f",Sum12)));
+        quarterlyQuantitiesBearing.setFebruaryEngineering(Double.parseDouble(String.format("%.2f", Sum2)));
+        quarterlyQuantitiesBearing.setMarchEngineering(Double.parseDouble(String.format("%.2f", Sum3)));
+        quarterlyQuantitiesBearing.setAprilEngineering(Double.parseDouble(String.format("%.2f", Sum4)));
+        quarterlyQuantitiesBearing.setMayEngineering(Double.parseDouble(String.format("%.2f", Sum5)));
+        quarterlyQuantitiesBearing.setJuneEngineering(Double.parseDouble(String.format("%.2f", Sum6)));
+        quarterlyQuantitiesBearing.setJulyEngineering(Double.parseDouble(String.format("%.2f", Sum7)));
+        quarterlyQuantitiesBearing.setAugustEngineering(Double.parseDouble(String.format("%.2f", Sum8)));
+        quarterlyQuantitiesBearing.setSeptemberEngineering(Double.parseDouble(String.format("%.2f", Sum9)));
+        quarterlyQuantitiesBearing.setOctoberEngineering(Double.parseDouble(String.format("%.2f", Sum10)));
+        quarterlyQuantitiesBearing.setNovemberEngineering(Double.parseDouble(String.format("%.2f", Sum11)));
+        quarterlyQuantitiesBearing.setDecemberEngineering(Double.parseDouble(String.format("%.2f", Sum12)));
 
         //季度工程量 1-3月
-        quarterlyQuantitiesBearing.setQuarterlyEngineering1(Double.parseDouble(String.format("%.2f",(Sum1+Sum2+Sum3)/3)));
+        quarterlyQuantitiesBearing.setQuarterlyEngineering1(Double.parseDouble(String.format("%.2f", (Sum1 + Sum2 + Sum3) / 3)));
         //4-6月
-        quarterlyQuantitiesBearing.setQuarterlyEngineering2(Double.parseDouble(String.format("%.2f",(Sum4+Sum5+Sum6)/3)));
+        quarterlyQuantitiesBearing.setQuarterlyEngineering2(Double.parseDouble(String.format("%.2f", (Sum4 + Sum5 + Sum6) / 3)));
         //7-9月
-        quarterlyQuantitiesBearing.setQuarterlyEngineering3(Double.parseDouble(String.format("%.2f",(Sum7+Sum8+Sum9)/3)));
+        quarterlyQuantitiesBearing.setQuarterlyEngineering3(Double.parseDouble(String.format("%.2f", (Sum7 + Sum8 + Sum9) / 3)));
         //10-12
-        quarterlyQuantitiesBearing.setQuarterlyEngineering4(Double.parseDouble(String.format("%.2f",(Sum10+Sum12+Sum12)/3)));
+        quarterlyQuantitiesBearing.setQuarterlyEngineering4(Double.parseDouble(String.format("%.2f", (Sum10 + Sum12 + Sum12) / 3)));
 
         //取出每个季度最大的值
 
@@ -635,7 +639,7 @@ public class ModelTest {
         Double actualTechAndQualityInspector = 0D;
 
         /**
-         * 技术兼质检员
+         * 作业副班长
          */
         Integer theoreticalValueDeputyShiftLeader = 0;
         Double actualDeputyShiftLeader = 0D;
@@ -683,33 +687,32 @@ public class ModelTest {
         SubstationEngineering substationEngineering = new SubstationEngineering();
         //  装载VO类
         //  项目经理
-        substationEngineering = loadVO("项目经理", theoreticalValueManager, 1D, actualManager);
+        substationEngineering = loadSubstationEngineeringVO("项目经理", theoreticalValueManager, 1D, actualManager);
         substationEngineeringList.add(substationEngineering);
         //  项目总工
-        substationEngineering = loadVO("项目总工", theoreticalValueEngineer, 1D, actualEngineer);
+        substationEngineering = loadSubstationEngineeringVO("项目总工", theoreticalValueEngineer, 1D, actualEngineer);
         substationEngineeringList.add(substationEngineering);
         //  项目质检员
-        substationEngineering = loadVO("项目质检员", theoreticalValueProQualityInspector, 1D, actualProQualityInspector);
+        substationEngineering = loadSubstationEngineeringVO("项目质检员", theoreticalValueProQualityInspector, 1D, actualProQualityInspector);
         substationEngineeringList.add(substationEngineering);
         //  项目安全员
-        substationEngineering = loadVO("项目安全员", theoreticalValueProSafetyOfficer, 1D, actualProSafetyOfficer);
+        substationEngineering = loadSubstationEngineeringVO("项目安全员", theoreticalValueProSafetyOfficer, 1D, actualProSafetyOfficer);
         substationEngineeringList.add(substationEngineering);
         //  班长兼指挥
-        substationEngineering = loadVO("班长兼指挥", theoreticalValueMonitorAndCommander, 0.6, actualMonitorAndCommander);
+        substationEngineering = loadSubstationEngineeringVO("班长兼指挥", theoreticalValueMonitorAndCommander, 0.6, actualMonitorAndCommander);
         substationEngineeringList.add(substationEngineering);
         //  安全员
-        substationEngineering = loadVO("安全员", theoreticalValueSafetyOfficer, 0.6, actualSafetyOfficer);
+        substationEngineering = loadSubstationEngineeringVO("安全员", theoreticalValueSafetyOfficer, 0.6, actualSafetyOfficer);
         substationEngineeringList.add(substationEngineering);
         //  技术兼质检员
-        substationEngineering = loadVO("技术兼质检员", theoreticalValueTechAndQualityInspector, 0.6, actualTechAndQualityInspector);
+        substationEngineering = loadSubstationEngineeringVO("技术兼质检员", theoreticalValueTechAndQualityInspector, 0.6, actualTechAndQualityInspector);
         substationEngineeringList.add(substationEngineering);
         //  作业副班长
-        substationEngineering = loadVO("作业副班长", theoreticalValueDeputyShiftLeader, 0.6, actualDeputyShiftLeader);
+        substationEngineering = loadSubstationEngineeringVO("作业副班长", theoreticalValueDeputyShiftLeader, 0.6, actualDeputyShiftLeader);
         substationEngineeringList.add(substationEngineering);
 
         return substationEngineeringList;
     }
-
 
     /**
      * 装载 输变电工程项目部人员构成指标 VO类的方法
@@ -719,7 +722,7 @@ public class ModelTest {
      * @param actual           实际值
      * @return
      */
-    public SubstationEngineering loadVO(String post, Integer theoreticalValue, Double personnelLineEngineering, Double actual) {
+    public SubstationEngineering loadSubstationEngineeringVO(String post, Integer theoreticalValue, Double personnelLineEngineering, Double actual) {
         SubstationEngineering substationEngineering = new SubstationEngineering();
         //岗位
         substationEngineering.setPost(post);
@@ -743,4 +746,159 @@ public class ModelTest {
         return substationEngineering;
 
     }
+
+    /**
+     * 计算 配网工程项目部人员构成指标
+     *
+     * @param employees 人员信息的集合
+     * @return {@link List<DistributionNetwork>}
+     */
+    public List<DistributionNetwork> calDistributionNetwork(List<Employee> employees) {
+
+        /**
+         * 项目经理
+         */
+        Integer theoreticalValueManager = 0;
+        Double actualManager = 0D;
+
+        /**
+         * 项目总工
+         */
+        Integer theoreticalValueEngineer = 0;
+        Double actualEngineer = 0D;
+
+        /**
+         * 项目质检员
+         */
+        Integer theoreticalValueProQualityInspector = 0;
+        Double actualProQualityInspector = 0D;
+
+        /**
+         * 项目安全员
+         */
+        Integer theoreticalValueProSafetyOfficer = 0;
+        Double actualProSafetyOfficer = 0D;
+
+        /**
+         * 安全员
+         */
+        Integer theoreticalValueSafetyOfficer = 0;
+        Double actualSafetyOfficer = 0D;
+
+        /**
+         * 技术兼质检员
+         */
+        Integer theoreticalValueTechAndQualityInspector = 0;
+        Double actualTechAndQualityInspector = 0D;
+
+        /**
+         * 班长兼指挥
+         */
+        Integer theoreticalValueMonitorAndCommander = 0;
+        Double actualMonitorAndCommander = 0D;
+
+        /**
+         * 作业副班长
+         */
+        Integer theoreticalValueDeputyShiftLeader = 0;
+        Double actualDeputyShiftLeader = 0D;
+
+        for (Employee employee : employees) {
+
+            if ("项目经理".equals(employee.getPost())) {
+                theoreticalValueManager++;
+                actualManager += employee.getTotalScore();
+            }
+            if ("项目总工".equals(employee.getPost())) {
+                theoreticalValueEngineer++;
+                actualEngineer += employee.getTotalScore();
+            }
+            if ("项目质检员".equals(employee.getPost())) {
+                theoreticalValueProQualityInspector++;
+                actualProQualityInspector += employee.getTotalScore();
+            }
+            if ("项目安全员".equals(employee.getPost())) {
+                theoreticalValueProSafetyOfficer++;
+                actualProSafetyOfficer += employee.getTotalScore();
+            }
+            if ("安全员".equals(employee.getPost())) {
+                theoreticalValueSafetyOfficer++;
+                actualSafetyOfficer += employee.getTotalScore();
+            }
+            if ("技术兼质检员".equals(employee.getPost())) {
+                theoreticalValueTechAndQualityInspector++;
+                actualTechAndQualityInspector += employee.getTotalScore();
+            }
+            if ("班长兼指挥".equals(employee.getPost())) {
+                theoreticalValueMonitorAndCommander++;
+                actualMonitorAndCommander += employee.getTotalScore();
+            }
+            if ("作业副班长".equals(employee.getPost())) {
+                theoreticalValueDeputyShiftLeader++;
+                actualDeputyShiftLeader += employee.getTotalScore();
+            }
+
+        }
+        List<DistributionNetwork> substationEngineeringList = new ArrayList<DistributionNetwork>();
+
+        DistributionNetwork distributionNetwork = new DistributionNetwork();
+        //  装载VO类
+        //  项目经理
+        distributionNetwork = loadDistributionNetworkVO("项目经理", theoreticalValueManager, actualManager, 1D);
+        substationEngineeringList.add(distributionNetwork);
+        //  项目总工
+        distributionNetwork = loadDistributionNetworkVO("项目总工", theoreticalValueEngineer, actualEngineer, 1D);
+        substationEngineeringList.add(distributionNetwork);
+        //  项目质检员
+        distributionNetwork = loadDistributionNetworkVO("项目质检员", theoreticalValueProQualityInspector, actualProQualityInspector, 1D);
+        substationEngineeringList.add(distributionNetwork);
+        //  项目安全员
+        distributionNetwork = loadDistributionNetworkVO("项目安全员", theoreticalValueProSafetyOfficer, actualProSafetyOfficer, 1D);
+        substationEngineeringList.add(distributionNetwork);
+        //  安全员
+        distributionNetwork = loadDistributionNetworkVO("安全员", theoreticalValueSafetyOfficer, actualSafetyOfficer, 0.7);
+        substationEngineeringList.add(distributionNetwork);
+        //  技术兼质检员
+        distributionNetwork = loadDistributionNetworkVO("技术兼质检员", theoreticalValueTechAndQualityInspector, actualTechAndQualityInspector, 0.8);
+        substationEngineeringList.add(distributionNetwork);
+        //  班长兼指挥
+        distributionNetwork = loadDistributionNetworkVO("班长兼指挥", theoreticalValueMonitorAndCommander, actualMonitorAndCommander, 0.8);
+        substationEngineeringList.add(distributionNetwork);
+        //  作业副班长
+        distributionNetwork = loadDistributionNetworkVO("作业副班长", theoreticalValueDeputyShiftLeader, actualDeputyShiftLeader, 0.8);
+        substationEngineeringList.add(distributionNetwork);
+
+        return substationEngineeringList;
+
+    }
+
+    /**
+     * 装载 配网工程项目部人员构成指标 VO类
+     *
+     * @param post             岗位
+     * @param theoreticalValue 理论值
+     * @param actual           实际值
+     * @param personnel        人员折算系数
+     * @return
+     */
+    public DistributionNetwork loadDistributionNetworkVO(String post, Integer theoreticalValue, Double actual, Double personnel) {
+        DistributionNetwork distributionNetwork = new DistributionNetwork();
+        //岗位
+        distributionNetwork.setPost(post);
+        //理论指标值
+        distributionNetwork.setTheoreticalValue(theoreticalValue);
+        // 实际指标值
+        distributionNetwork.setActual(Double.valueOf(String.format("%.2f", actual)));
+        // 人员折算系数
+        distributionNetwork.setPersonnel(personnel);
+        // 理论人员指标
+        distributionNetwork.setTheory(Double.valueOf(String.format("%.2f", distributionNetwork.getTheoreticalValue() * distributionNetwork.getPersonnel())));
+        // 实际人员指标
+        distributionNetwork.setActualPersonnel(Double.valueOf(String.format("%.2f", distributionNetwork.getActual() * distributionNetwork.getPersonnel())));
+
+        // Double.valueOf(String.format("%.2f", distributionNetwork.getTheoreticalValue() * distributionNetwork.getPersonnel()));
+
+        return distributionNetwork;
+    }
+
 }

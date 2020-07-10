@@ -8,37 +8,34 @@ import lombok.Data;
 @Data
 public class DistributionNetwork {
 
-
     /**
      * 岗位
      */
-    private  String Post;
+    private  String post;
 
     /**
      * 理论指标值
      */
-    private  Double TheoreticalValue;
+    private  Integer theoreticalValue;
 
     /**
      * 实际指标值
      */
-    private  Double Actual;
+    private  Double actual;
 
     /**
      * 人员折算系数
      */
-    private  Double Personnel;
+    private  Double personnel;
 
     /**
      * 理论人员指标
      */
-    private  Double Theory;
+    private  Double theory;
 
     /**
      * 实际人员指标
      */
-    private  Double  ActualPersonnel;
-
-
+    private  Double  actualPersonnel;
 
 }
