@@ -61,8 +61,12 @@ public class ModelTest {
 
         //5.计算 配网工程项目部人员构成指标
         List<DistributionNetwork> distributionNetworkList = calDistributionNetwork(employees);
-        System.out.println("===============");
-        System.out.println(JSON.toJSONString(distributionNetworkList));
+
+        //6.计算 施工承载力
+        List<ConstructionBearingCapacity> bearingCapacities = calConstructionBearingCapacity(projectTypeList, substationEngineeringList, distributionNetworkList);
+        System.out.println("=============");
+        System.out.println(JSON.toJSONString(bearingCapacities));
+
 
         //7.计算 季度工程量及承载力
         List<QuarterlyQuantitiesBearing> QuarterlyQuantitiesBearing = calQuarterlyQuantitiesBearing(projectDetails);
@@ -901,4 +905,160 @@ public class ModelTest {
         return distributionNetwork;
     }
 
+    /**
+     * 计算 施工承载力
+     *
+     * @param projectTypeList           工程类型
+     * @param substationEngineeringList 输变电工程项目部人员构成指标
+     * @param distributionNetworkList   配网工程项目部人员构成指标
+     * @return {@link List<ConstructionBearingCapacity>}
+     */
+    public List<ConstructionBearingCapacity> calConstructionBearingCapacity(List<ProjectType> projectTypeList,
+                                                                            List<SubstationEngineering> substationEngineeringList,
+                                                                            List<DistributionNetwork> distributionNetworkList) {
+
+        /**
+         * 线路标准工程承载力
+         */
+        Double theoreticalValueLine;
+        Double actualLine;
+
+        /**
+         * 变电标准工程承载力
+         */
+        Double theoreticalValueVoltage;
+        Double actualVoltage;
+
+        /**
+         * 配网标准工程承载力
+         */
+        Double theoreticalValueNetwork;
+        Double actualNetwork;
+
+        /**
+         * 企业施工承载力
+         */
+        Double theoreticalValueConstruction;
+        Double actualConstruction;
+
+        /**
+         * 理论人员指标-线路工程 最小值
+         */
+        Double theoryLineEngineeringMin = 9999.0;
+
+        /**
+         * 实际人员指标-线路工程 最小值
+         */
+        Double actualLineEngineeringMin = 9999.0;
+
+        /**
+         * 变电标准工程承载力-理论指标值 最小值
+         */
+        Double theoreticalValueVoltageMin = 9999.0;
+
+        /**
+         * 变电标准工程承载力-实际指标值 最小值
+         */
+        Double actualVoltageMin = 9999.0;
+
+        /**
+         * 配网标准工程承载力-理论指标值 最小值
+         */
+        Double theoreticalValueNetworkMin = 9999.0;
+
+
+        /**
+         * 配网标准工程承载力-实际指标值 最小值
+         */
+        Double actualNetworkMin = 9999.0;
+
+        for (SubstationEngineering substationEngineering : substationEngineeringList) {
+            //取当前值与最小值作比较，循环取小
+            Double lineEngineering = substationEngineering.getTheoryLineEngineering();
+            if (lineEngineering < theoryLineEngineeringMin) {
+                theoryLineEngineeringMin = lineEngineering;
+            }
+            Double actualLineEngineering = substationEngineering.getActualLineEngineering();
+            if (actualLineEngineering < actualLineEngineeringMin) {
+                actualLineEngineeringMin = actualLineEngineering;
+            }
+            Double theorySubstationEngineering = substationEngineering.getTheorySubstationEngineering();
+            if (theorySubstationEngineering < theoreticalValueVoltageMin) {
+                theoreticalValueVoltageMin = theorySubstationEngineering;
+            }
+            Double actualSubstationEngineering = substationEngineering.getActualSubstationEngineering();
+            if (actualSubstationEngineering < actualVoltageMin) {
+                actualVoltageMin = actualSubstationEngineering;
+            }
+        }
+
+        for (DistributionNetwork distributionNetwork : distributionNetworkList) {
+            Double theory = distributionNetwork.getTheory();
+            if (theory < theoreticalValueNetworkMin) {
+                theoreticalValueNetworkMin = theory;
+            }
+            Double actualPersonnel = distributionNetwork.getActualPersonnel();
+            if (actualPersonnel < actualNetworkMin) {
+                actualNetworkMin = actualPersonnel;
+            }
+        }
+
+        //线路标准工程承载力-理论指标值
+        theoreticalValueLine = projectTypeList.get(0).getEngineeringAdjustmentCoefficient() * theoryLineEngineeringMin;
+        //线路标准工程承载力-实际指标值
+        actualLine = projectTypeList.get(0).getEngineeringAdjustmentCoefficient() * actualLineEngineeringMin;
+
+        //变电标准工程承载力-理论指标值
+        theoreticalValueVoltage = projectTypeList.get(1).getEngineeringAdjustmentCoefficient() * theoreticalValueVoltageMin;
+        //变电标准工程承载力-实际指标值
+        actualVoltage = projectTypeList.get(1).getEngineeringAdjustmentCoefficient() * actualVoltageMin;
+
+        //配网标准工程承载力--理论指标值
+        theoreticalValueNetwork = projectTypeList.get(1).getEngineeringAdjustmentCoefficient() * theoreticalValueNetworkMin;
+        //配网标准工程承载力-实际指标值
+        actualNetwork = projectTypeList.get(1).getEngineeringAdjustmentCoefficient() * actualNetworkMin;
+
+        //企业施工承载力-理论指标值
+        theoreticalValueConstruction = theoreticalValueLine + theoreticalValueVoltage + theoreticalValueNetwork;
+        //企业施工承载力-实际指标值
+        actualConstruction = actualLine + actualVoltage + actualNetwork;
+
+        List<ConstructionBearingCapacity> capacityList = new ArrayList<ConstructionBearingCapacity>();
+        ConstructionBearingCapacity capacity = new ConstructionBearingCapacity();
+
+        //线路标准工程承载力
+        capacity = loadConstructionBearingCapacityVO("线路标准工程承载力", theoreticalValueLine, actualLine);
+        capacityList.add(capacity);
+
+        //变电标准工程承载力
+        capacity = loadConstructionBearingCapacityVO("变电标准工程承载力", theoreticalValueVoltage, actualVoltage);
+        capacityList.add(capacity);
+
+        //配网标准工程承载力
+        capacity = loadConstructionBearingCapacityVO("配网标准工程承载力", theoreticalValueNetwork, actualNetwork);
+        capacityList.add(capacity);
+
+        //企业施工承载力
+        capacity = loadConstructionBearingCapacityVO("企业施工承载力", theoreticalValueConstruction, actualConstruction);
+        capacityList.add(capacity);
+
+        return capacityList;
+    }
+
+    /**
+     * 装载 施工承载力 VO的方法
+     *
+     * @param indicatorName    指标名称
+     * @param theoreticalValue 理论值
+     * @param actual           实际值
+     * @return
+     */
+    public ConstructionBearingCapacity loadConstructionBearingCapacityVO(String indicatorName, Double theoreticalValue, Double actual) {
+        ConstructionBearingCapacity capacity = new ConstructionBearingCapacity();
+        capacity.setIndicatorName(indicatorName);
+        capacity.setTheoreticalValue(theoreticalValue);
+        capacity.setActual(actual);
+
+        return capacity;
+    }
 }

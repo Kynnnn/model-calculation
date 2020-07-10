@@ -10,17 +10,17 @@ public class ConstructionBearingCapacity {
     /**
      * 指标名称
      */
-    private  String IndicatorName;
+    private  String indicatorName;
 
     /**
      * 理论指标值
      */
-    private  Double TheoreticalValue;
+    private  Double theoreticalValue;
 
     /**
      * 实际指标值
      */
-    private  Double Actual;
+    private  Double actual;
 
 
 
