@@ -56,9 +56,13 @@ public class ModelTest {
 
         //3.计算 工程类型
         List<ProjectType> projectTypeList = calProjectType(projectDetails);
+        // System.out.println("==============");
+        // System.out.println(JSON.toJSONString(projectTypeList));
 
         //4.计算 输变电工程项目部人员构成指标
         List<SubstationEngineering> substationEngineeringList = calSubstationEngineering(employees);
+// System.out.println("===================");
+//         System.out.println(JSON.toJSONString(substationEngineeringList));
 
         //5.计算 配网工程项目部人员构成指标
         List<DistributionNetwork> distributionNetworkList = calDistributionNetwork(employees);
@@ -67,8 +71,8 @@ public class ModelTest {
 
         //6.计算 施工承载力
         List<ConstructionBearingCapacity> bearingCapacities = calConstructionBearingCapacity(projectTypeList, substationEngineeringList, distributionNetworkList);
-        // System.out.println("=============");
-        // System.out.println(JSON.toJSONString(bearingCapacities));
+        System.out.println("=============");
+        System.out.println(JSON.toJSONString(bearingCapacities));
 
         //7.计算 季度工程量及承载力
         QuarterlyQuantitiesBearing QuarterlyQuantitiesBearing = calQuarterlyQuantitiesBearing(projectDetails, bearingCapacities);
@@ -523,26 +527,25 @@ public class ModelTest {
 //        quarterlyQuantitiesBearing.setQuarterlyEngineering3(Double.parseDouble(String.format("%.2f",quarterlyQuantitiesBearing.getJulyBearingCapacitySaturation() * 100) + "%"));
 //        quarterlyQuantitiesBearing.setQuarterlyEngineering4( Double.parseDouble(String.format("%.2f",quarterlyQuantitiesBearing.getOctoberBearingCapacitySaturation() * 100) + "%"));
 //        quarterlyQuantitiesBearing.setQuarterlyEngineering1(Double.parseDouble(quarterlyQuantitiesBearing.getMarchBearingCapacitySaturation()));
-        System.out.println(quarterlyQuantitiesBearing.getMarchBearingCapacitySaturation()+"wwwwwwwww");
+        System.out.println(quarterlyQuantitiesBearing.getMarchBearingCapacitySaturation() + "wwwwwwwww");
 //        quarterlyQuantitiesBearing.setQuarterlyEngineering2(Double.parseDouble(quarterlyQuantitiesBearing.getJuneBearingCapacitySaturation()));
 //        quarterlyQuantitiesBearing.setQuarterlyEngineering3(Double.parseDouble(quarterlyQuantitiesBearing.getJulyBearingCapacitySaturation()));
 //        quarterlyQuantitiesBearing.setQuarterlyEngineering4( Double.parseDouble(quarterlyQuantitiesBearing.getOctoberBearingCapacitySaturation()));
         System.out.println(quarterlyQuantitiesBearing.getQuarterlyEngineering1());
         //承载力饱和度
 
-        quarterlyQuantitiesBearing.setBearingCapacitySaturation1(quarterlyQuantitiesBearing.getQuarterlyEngineering1()/CalActualBearingCapacity4);
-        quarterlyQuantitiesBearing.setBearingCapacitySaturation2(quarterlyQuantitiesBearing.getQuarterlyEngineering2()/CalActualBearingCapacity4);
-        quarterlyQuantitiesBearing.setBearingCapacitySaturation3(quarterlyQuantitiesBearing.getQuarterlyEngineering3()/CalActualBearingCapacity4);
-        quarterlyQuantitiesBearing.setBearingCapacitySaturation4(quarterlyQuantitiesBearing.getQuarterlyEngineering4()/CalActualBearingCapacity4);
+        quarterlyQuantitiesBearing.setBearingCapacitySaturation1(quarterlyQuantitiesBearing.getQuarterlyEngineering1() / CalActualBearingCapacity4);
+        quarterlyQuantitiesBearing.setBearingCapacitySaturation2(quarterlyQuantitiesBearing.getQuarterlyEngineering2() / CalActualBearingCapacity4);
+        quarterlyQuantitiesBearing.setBearingCapacitySaturation3(quarterlyQuantitiesBearing.getQuarterlyEngineering3() / CalActualBearingCapacity4);
+        quarterlyQuantitiesBearing.setBearingCapacitySaturation4(quarterlyQuantitiesBearing.getQuarterlyEngineering4() / CalActualBearingCapacity4);
 
-        quarterlyQuantitiesBearing.setSingleQuarterRating1(Double.parseDouble(String.valueOf(100-(0.6-quarterlyQuantitiesBearing.getBearingCapacitySaturation1()*0))));
-        quarterlyQuantitiesBearing.setSingleQuarterRating2(Double.parseDouble(String.valueOf(100-(0.6-quarterlyQuantitiesBearing.getBearingCapacitySaturation2()*0))));
-        quarterlyQuantitiesBearing.setSingleQuarterRating3(Double.parseDouble(String.valueOf(100-(0.6-quarterlyQuantitiesBearing.getBearingCapacitySaturation3()*0))));
-        quarterlyQuantitiesBearing.setSingleQuarterRating4(Double.parseDouble(String.valueOf(100-(0.6-quarterlyQuantitiesBearing.getBearingCapacitySaturation4()*0))));
-        System.out.println(  quarterlyQuantitiesBearing.getSingleQuarterRating1()+"aaa1111");
+        quarterlyQuantitiesBearing.setSingleQuarterRating1(Double.parseDouble(String.valueOf(100 - (0.6 - quarterlyQuantitiesBearing.getBearingCapacitySaturation1() * 0))));
+        quarterlyQuantitiesBearing.setSingleQuarterRating2(Double.parseDouble(String.valueOf(100 - (0.6 - quarterlyQuantitiesBearing.getBearingCapacitySaturation2() * 0))));
+        quarterlyQuantitiesBearing.setSingleQuarterRating3(Double.parseDouble(String.valueOf(100 - (0.6 - quarterlyQuantitiesBearing.getBearingCapacitySaturation3() * 0))));
+        quarterlyQuantitiesBearing.setSingleQuarterRating4(Double.parseDouble(String.valueOf(100 - (0.6 - quarterlyQuantitiesBearing.getBearingCapacitySaturation4() * 0))));
+        System.out.println(quarterlyQuantitiesBearing.getSingleQuarterRating1() + "aaa1111");
 
-    //单季度评分
-
+        //单季度评分
 
 
         return quarterlyQuantitiesBearing;
@@ -1126,26 +1129,49 @@ public class ModelTest {
                 actualNetworkMin = actualPersonnel;
             }
         }
+        System.out.println("D2："+projectTypeList.get(0).getEngineeringAdjustmentCoefficient());
+        System.out.println("理论人员指标-线路工程 最小值："+theoryLineEngineeringMin);
+        System.out.println("实际人员指标-线路工程 最小值："+actualLineEngineeringMin);
+
+        System.out.println("D3："+projectTypeList.get(1).getEngineeringAdjustmentCoefficient());
+        System.out.println("变电标准工程承载力-理论指标值 最小值："+theoreticalValueVoltageMin);
+        System.out.println("变电标准工程承载力-实际指标值 最小值："+actualVoltageMin);
+
+        System.out.println("D4："+projectTypeList.get(2).getEngineeringAdjustmentCoefficient());
+        System.out.println("配网标准工程承载力-理论指标值 最小值："+theoreticalValueNetworkMin);
+        System.out.println("配网标准工程承载力-实际指标值 最小值："+actualNetworkMin);
+
 
         //线路标准工程承载力-理论指标值
         theoreticalValueLine = projectTypeList.get(0).getEngineeringAdjustmentCoefficient() * theoryLineEngineeringMin;
         //线路标准工程承载力-实际指标值
         actualLine = projectTypeList.get(0).getEngineeringAdjustmentCoefficient() * actualLineEngineeringMin;
 
+        System.out.println("线路标准工程承载力-理论指标值："+theoreticalValueLine);
+        System.out.println("线路标准工程承载力-实际指标值："+actualLine);
+
         //变电标准工程承载力-理论指标值
         theoreticalValueVoltage = projectTypeList.get(1).getEngineeringAdjustmentCoefficient() * theoreticalValueVoltageMin;
         //变电标准工程承载力-实际指标值
         actualVoltage = projectTypeList.get(1).getEngineeringAdjustmentCoefficient() * actualVoltageMin;
+        System.out.println("变电标准工程承载力-理论指标值："+theoreticalValueVoltage);
+        System.out.println("变电标准工程承载力-实际指标值："+actualVoltage);
 
         //配网标准工程承载力--理论指标值
         theoreticalValueNetwork = projectTypeList.get(2).getEngineeringAdjustmentCoefficient() * theoreticalValueNetworkMin;
         //配网标准工程承载力-实际指标值
         actualNetwork = projectTypeList.get(2).getEngineeringAdjustmentCoefficient() * actualNetworkMin;
+        System.out.println("配网标准工程承载力--理论指标值："+theoreticalValueNetwork);
+        System.out.println("配网标准工程承载力-实际指标值："+actualNetwork);
 
         //企业施工承载力-理论指标值
         theoreticalValueConstruction = theoreticalValueLine + theoreticalValueVoltage + theoreticalValueNetwork;
         //企业施工承载力-实际指标值
         actualConstruction = actualLine + actualVoltage + actualNetwork;
+
+        System.out.println("企业施工承载力-理论指标值："+theoreticalValueConstruction);
+        System.out.println("企业施工承载力-实际指标值："+actualConstruction);
+
 
         List<ConstructionBearingCapacity> capacityList = new ArrayList<ConstructionBearingCapacity>();
         ConstructionBearingCapacity capacity = new ConstructionBearingCapacity();
@@ -1237,17 +1263,17 @@ public class ModelTest {
         }
 
         //合计
-        weight1 = Double.valueOf(totalScore.getWeight1().split("%")[0])/100;
-        weight2 = Double.valueOf(totalScore.getWeight2().split("%")[0])/100;
+        weight1 = Double.valueOf(totalScore.getWeight1().split("%")[0]) / 100;
+        weight2 = Double.valueOf(totalScore.getWeight2().split("%")[0]) / 100;
 //        System.out.println(totalScore.getWeight3());
-        weight3 = Double.valueOf(totalScore.getWeight3().split("%")[0])/100;
-        weight4 = Double.valueOf(totalScore.getWeight4().split("%")[0])/100;
-        System.out.println(totalScore.getQuarterlyBearingCapacity1()+"a");
+        weight3 = Double.valueOf(totalScore.getWeight3().split("%")[0]) / 100;
+        weight4 = Double.valueOf(totalScore.getWeight4().split("%")[0]) / 100;
+        System.out.println(totalScore.getQuarterlyBearingCapacity1() + "a");
         System.out.println(totalScore.getQuarterlyBearingCapacity2());
         System.out.println(totalScore.getQuarterlyBearingCapacity3());
         System.out.println(totalScore.getQuarterlyBearingCapacity4());
-        System.out.println( totalScore.getPersonnelAndQualificationMatching());
-        System.out.println( totalScore.getEquipmentAndQualificationMatching()+"aa");
+        System.out.println(totalScore.getPersonnelAndQualificationMatching());
+        System.out.println(totalScore.getEquipmentAndQualificationMatching() + "aa");
         total = weight1 * totalScore.getQuarterlyBearingCapacity1() +
                 weight2 * totalScore.getQuarterlyBearingCapacity2() +
                 weight3 * totalScore.getQuarterlyBearingCapacity3() +
