@@ -1,9 +1,12 @@
 package com.ylkj.test;
 
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import com.ylkj.modelcal.vo.ConversionCoefficientQuantities;
 import com.ylkj.modelcal.vo.Employee;
 import com.ylkj.modelcal.vo.PersonnelAssignmentWeight;
+import com.ylkj.modelcal.vo.ProjectDetails;
 import org.apache.poi.hssf.usermodel.HSSFCell;
 import org.apache.poi.hssf.usermodel.HSSFRow;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
@@ -21,18 +24,24 @@ import java.util.List;
  * @date 2020/7/9
  */
 public class ModelTest {
+
     @Test
     public void test01() throws Exception {
-        FileInputStream input = new FileInputStream("C:\\Users\\朱迪炜\\Desktop\\模型计算.xls");
+        FileInputStream input = new FileInputStream("D:\\模型计算.xls");
         HSSFWorkbook wb = new HSSFWorkbook(input);
 
         //员工表数据注入VO
-        // List<Employee> employees = setVO(wb, 1, Employee.class, new int[]{2, 4, 5, 6});
+        List<Employee> employees = setVO(wb, 1, Employee.class, new int[]{2, 4, 5, 6});
 
-        //人员赋值及权重
+        //人员赋值及权重注入VO
         List<PersonnelAssignmentWeight> personnelAssignmentWeights = setVO(wb, 4, PersonnelAssignmentWeight.class, null);
-        String s = JSON.toJSONString(personnelAssignmentWeights);
-        System.out.println(s);
+
+        //工程量折算系数注入VO
+        String json = "[{\"standardInvestment\":3000,\"voltageLevel\":10,\"ConversionQuantities\":0.6},{\"standardInvestment\":5000,\"voltageLevel\":35,\"ConversionQuantities\":0.7},{\"standardInvestment\":5000,\"voltageLevel\":110,\"ConversionQuantities\":0.8},{\"standardInvestment\":5000,\"voltageLevel\":220,\"ConversionQuantities\":0.9},{\"standardInvestment\":5000,\"voltageLevel\":330,\"ConversionQuantities\":1},{\"standardInvestment\":5000,\"voltageLevel\":500,\"ConversionQuantities\":1}]";
+        List<ConversionCoefficientQuantities> conversionCoefficientQuantities = JSONArray.parseArray(json, ConversionCoefficientQuantities.class);
+
+        //工程明细表注入VO
+        List<ProjectDetails> projectDetails = setVO(wb, 10, ProjectDetails.class, null);
 
     }
 
@@ -45,6 +54,9 @@ public class ModelTest {
      * @param cellStr 需要取的cell的索引
      */
     public <T> List<T> setVO(HSSFWorkbook wb, int index, Class<T> clazz, int[] cellStr) {
+        System.out.println("==================");
+        System.out.println("VO类名称：" + clazz.getName());
+        System.out.println("cellStr: " + cellStr);
         List<T> voList = new ArrayList<T>();
         JSONObject object;
         Field[] declaredFields = clazz.getDeclaredFields();
@@ -57,13 +69,19 @@ public class ModelTest {
                 //定位到某一行
                 HSSFRow row = sheet.getRow(i);
                 object = new JSONObject();
-                if (cellStr != null && cellStr.length > 0) {
+                if (cellStr != null) {
                     for (int j = 0; j < cellStr.length; j++) {
                         HSSFCell cell = row.getCell(cellStr[j]);
+                        System.out.println("第：" + j + " 行");
+                        System.out.println("cell类型前：" + cell.getCellType());
                         cell.setCellType(Cell.CELL_TYPE_STRING);
+                        System.out.println("cell类型后：" + cell.getCellType());
                         String[] split = declaredFields[j].getType().getName().split("\\.");
                         String type = split[split.length - 1];
-                        if ("Integer".equals(type)) {
+                        if ("".equals(cell.getStringCellValue())) {
+                            continue;
+                        }
+                        if ("Integer".equals(type) || "Double".equals(type)) {
                             try {
                                 object.put(declaredFields[j].getName(), Double.valueOf(cell.getStringCellValue()));
                             } catch (Exception e) {
@@ -89,9 +107,9 @@ public class ModelTest {
                                 object.put(declaredFields[a].getName(), -9999);
                             }
                         } else if ("String".equals(type)) {
-                            if(cell.getStringCellValue().equals("-")){
+                            if (cell.getStringCellValue().equals("-")) {
                                 object.put(declaredFields[a].getName(), "-9999");
-                            }else{
+                            } else {
                                 object.put(declaredFields[a].getName(), cell.getStringCellValue());
                             }
                         }
