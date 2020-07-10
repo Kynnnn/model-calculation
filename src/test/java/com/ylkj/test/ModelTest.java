@@ -75,7 +75,7 @@ public class ModelTest {
 
         //8.计算 综合评分
         TotalScore totalScore = calTotalScore(QuarterlyQuantitiesBearing);
-
+        System.out.println(totalScore.getTotal());
     }
 
     /**
@@ -508,6 +508,41 @@ public class ModelTest {
         c = a / b;
         d = (String.format("%.2f", c * 100) + "%");
         quarterlyQuantitiesBearing.setDecemberBearingCapacitySaturation(d);
+
+        //季度承载力饱和度  1季度
+//        double max=0;
+//        double  aa=Double.parseDouble(quarterlyQuantitiesBearing.getJanuaryBearingCapacitySaturation());
+//        //
+//        double  bb=Double.parseDouble(quarterlyQuantitiesBearing.getFebruaryBearingCapacitySaturation());
+//
+//        double cc=Double.parseDouble(quarterlyQuantitiesBearing.getMarchBearingCapacitySaturation());
+//        max=aa>bb?aa:bb;
+//        max=cc>max?cc:max;
+//        quarterlyQuantitiesBearing.setQuarterlyEngineering1(Double.parseDouble(String.format("%.2f",quarterlyQuantitiesBearing.getMarchBearingCapacitySaturation() * 100) + "%"));
+//        quarterlyQuantitiesBearing.setQuarterlyEngineering2(Double.parseDouble(String.format("%.2f",quarterlyQuantitiesBearing.getJuneBearingCapacitySaturation() * 100) + "%"));
+//        quarterlyQuantitiesBearing.setQuarterlyEngineering3(Double.parseDouble(String.format("%.2f",quarterlyQuantitiesBearing.getJulyBearingCapacitySaturation() * 100) + "%"));
+//        quarterlyQuantitiesBearing.setQuarterlyEngineering4( Double.parseDouble(String.format("%.2f",quarterlyQuantitiesBearing.getOctoberBearingCapacitySaturation() * 100) + "%"));
+//        quarterlyQuantitiesBearing.setQuarterlyEngineering1(Double.parseDouble(quarterlyQuantitiesBearing.getMarchBearingCapacitySaturation()));
+        System.out.println(quarterlyQuantitiesBearing.getMarchBearingCapacitySaturation()+"wwwwwwwww");
+//        quarterlyQuantitiesBearing.setQuarterlyEngineering2(Double.parseDouble(quarterlyQuantitiesBearing.getJuneBearingCapacitySaturation()));
+//        quarterlyQuantitiesBearing.setQuarterlyEngineering3(Double.parseDouble(quarterlyQuantitiesBearing.getJulyBearingCapacitySaturation()));
+//        quarterlyQuantitiesBearing.setQuarterlyEngineering4( Double.parseDouble(quarterlyQuantitiesBearing.getOctoberBearingCapacitySaturation()));
+        System.out.println(quarterlyQuantitiesBearing.getQuarterlyEngineering1());
+        //承载力饱和度
+
+        quarterlyQuantitiesBearing.setBearingCapacitySaturation1(quarterlyQuantitiesBearing.getQuarterlyEngineering1()/CalActualBearingCapacity4);
+        quarterlyQuantitiesBearing.setBearingCapacitySaturation2(quarterlyQuantitiesBearing.getQuarterlyEngineering2()/CalActualBearingCapacity4);
+        quarterlyQuantitiesBearing.setBearingCapacitySaturation3(quarterlyQuantitiesBearing.getQuarterlyEngineering3()/CalActualBearingCapacity4);
+        quarterlyQuantitiesBearing.setBearingCapacitySaturation4(quarterlyQuantitiesBearing.getQuarterlyEngineering4()/CalActualBearingCapacity4);
+
+        quarterlyQuantitiesBearing.setSingleQuarterRating1(Double.parseDouble(String.valueOf(100-(0.6-quarterlyQuantitiesBearing.getBearingCapacitySaturation1()*0))));
+        quarterlyQuantitiesBearing.setSingleQuarterRating2(Double.parseDouble(String.valueOf(100-(0.6-quarterlyQuantitiesBearing.getBearingCapacitySaturation2()*0))));
+        quarterlyQuantitiesBearing.setSingleQuarterRating3(Double.parseDouble(String.valueOf(100-(0.6-quarterlyQuantitiesBearing.getBearingCapacitySaturation3()*0))));
+        quarterlyQuantitiesBearing.setSingleQuarterRating4(Double.parseDouble(String.valueOf(100-(0.6-quarterlyQuantitiesBearing.getBearingCapacitySaturation4()*0))));
+        System.out.println(  quarterlyQuantitiesBearing.getSingleQuarterRating1()+"aaa1111");
+
+    //单季度评分
+
 
 
         return quarterlyQuantitiesBearing;
@@ -1158,7 +1193,6 @@ public class ModelTest {
      * @return
      */
     public TotalScore calTotalScore(QuarterlyQuantitiesBearing QuarterlyQuantitiesBearing) {
-
         /**
          * 权重
          */
@@ -1174,12 +1208,15 @@ public class ModelTest {
         EnterpriseInformation enterpriseInformation = new EnterpriseInformation();
         TotalScore totalScore = new TotalScore();
         //季度承载力评分
-
+        totalScore.setQuarterlyBearingCapacity1(QuarterlyQuantitiesBearing.getSingleQuarterRating1());
+        totalScore.setQuarterlyBearingCapacity2(QuarterlyQuantitiesBearing.getSingleQuarterRating2());
+        totalScore.setQuarterlyBearingCapacity3(QuarterlyQuantitiesBearing.getSingleQuarterRating3());
+        totalScore.setQuarterlyBearingCapacity4(QuarterlyQuantitiesBearing.getSingleQuarterRating4());
         //权重
         totalScore.setWeight1("25%");
         totalScore.setWeight2("25%");
-        totalScore.setWeight2("25%");
-        totalScore.setWeight2("25%");
+        totalScore.setWeight3("25%");
+        totalScore.setWeight4("25%");
 
 
         //人员与资质匹配评分
@@ -1200,10 +1237,17 @@ public class ModelTest {
         }
 
         //合计
-        weight1 = Double.valueOf(totalScore.getWeight1().split("%")[0]);
-        weight2 = Double.valueOf(totalScore.getWeight2().split("%")[0]);
-        weight3 = Double.valueOf(totalScore.getWeight3().split("%")[0]);
-        weight4 = Double.valueOf(totalScore.getWeight4().split("%")[0]);
+        weight1 = Double.valueOf(totalScore.getWeight1().split("%")[0])/100;
+        weight2 = Double.valueOf(totalScore.getWeight2().split("%")[0])/100;
+//        System.out.println(totalScore.getWeight3());
+        weight3 = Double.valueOf(totalScore.getWeight3().split("%")[0])/100;
+        weight4 = Double.valueOf(totalScore.getWeight4().split("%")[0])/100;
+        System.out.println(totalScore.getQuarterlyBearingCapacity1()+"a");
+        System.out.println(totalScore.getQuarterlyBearingCapacity2());
+        System.out.println(totalScore.getQuarterlyBearingCapacity3());
+        System.out.println(totalScore.getQuarterlyBearingCapacity4());
+        System.out.println( totalScore.getPersonnelAndQualificationMatching());
+        System.out.println( totalScore.getEquipmentAndQualificationMatching()+"aa");
         total = weight1 * totalScore.getQuarterlyBearingCapacity1() +
                 weight2 * totalScore.getQuarterlyBearingCapacity2() +
                 weight3 * totalScore.getQuarterlyBearingCapacity3() +

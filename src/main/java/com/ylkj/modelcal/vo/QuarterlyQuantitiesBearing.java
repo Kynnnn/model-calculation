@@ -106,13 +106,13 @@ public class QuarterlyQuantitiesBearing {
     private  Double BearingCapacitySaturation4;
 
     //单季度评分 1-4季度
-    private  Integer SingleQuarterRating1;
+    private  Double SingleQuarterRating1;
 
-    private  Integer SingleQuarterRating2;
+    private  Double SingleQuarterRating2;
 
-    private  Integer SingleQuarterRating3;
+    private  Double SingleQuarterRating3;
 
-    private  Integer SingleQuarterRating4;
+    private  Double SingleQuarterRating4;
 
 
 

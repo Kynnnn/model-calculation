@@ -12,13 +12,13 @@ public class TotalScore {
     /**
      * 季度承载力
      */
-    private Integer quarterlyBearingCapacity1;
+    private double quarterlyBearingCapacity1;
 
-    private Integer quarterlyBearingCapacity2;
+    private double quarterlyBearingCapacity2;
 
-    private Integer quarterlyBearingCapacity3;
+    private double quarterlyBearingCapacity3;
 
-    private Integer quarterlyBearingCapacity4;
+    private double quarterlyBearingCapacity4;
 
     /**
      * 权重
