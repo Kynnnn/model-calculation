@@ -47,7 +47,6 @@ public class ModelTest {
         //企业信息表注入VO
         EnterpriseInformation enterpriseInformation = new EnterpriseInformation();
 
-
         //1.计算 人员信息（项目部人员）
         employees = calEmployee(employees, personnelAssignmentWeights);
 
@@ -56,6 +55,11 @@ public class ModelTest {
 
         //3.计算 工程类型
         List<ProjectType> projectTypeList = calProjectType(projectDetails);
+
+        //4.计算 输变电工程项目部人员构成指标
+        List<SubstationEngineering> substationEngineeringList = calSubstationEngineering(employees);
+
+
     }
 
     /**
@@ -489,4 +493,164 @@ public class ModelTest {
         return projectTypeList;
     }
 
+    /**
+     * 计算 输变电工程项目部人员构成指标
+     *
+     * @param employees 人员信息的集合
+     * @return
+     */
+    public List<SubstationEngineering> calSubstationEngineering(List<Employee> employees) {
+
+        /**
+         * 项目经理
+         */
+        Integer theoreticalValueManager = 0;
+        Double actualManager = 0D;
+
+        /**
+         * 项目总工
+         */
+        Integer theoreticalValueEngineer = 0;
+        Double actualEngineer = 0D;
+
+        /**
+         * 项目质检员
+         */
+        Integer theoreticalValueProQualityInspector = 0;
+        Double actualProQualityInspector = 0D;
+
+        /**
+         * 项目安全员
+         */
+        Integer theoreticalValueProSafetyOfficer = 0;
+        Double actualProSafetyOfficer = 0D;
+
+        /**
+         * 班长兼指挥
+         */
+        Integer theoreticalValueMonitorAndCommander = 0;
+        Double actualMonitorAndCommander = 0D;
+
+        /**
+         * 安全员
+         */
+        Integer theoreticalValueSafetyOfficer = 0;
+        Double actualSafetyOfficer = 0D;
+
+
+        /**
+         * 技术兼质检员
+         */
+        Integer theoreticalValueTechAndQualityInspector = 0;
+        Double actualTechAndQualityInspector = 0D;
+
+        /**
+         * 技术兼质检员
+         */
+        Integer theoreticalValueDeputyShiftLeader = 0;
+        Double actualDeputyShiftLeader = 0D;
+
+        for (Employee employee : employees) {
+
+            if ("项目经理".equals(employee.getPost())) {
+                theoreticalValueManager++;
+                if ("一级建造师".equals(employee.getProQualification()) || "二级建造师".equals(employee.getProQualification())) {
+                    actualManager += employee.getTotalScore();
+                }
+            }
+            if ("项目总工".equals(employee.getPost())) {
+                theoreticalValueEngineer++;
+                actualEngineer += employee.getTotalScore();
+            }
+            if ("项目质检员".equals(employee.getPost())) {
+                theoreticalValueProQualityInspector++;
+                actualProQualityInspector += employee.getTotalScore();
+            }
+            if ("项目安全员".equals(employee.getPost())) {
+                theoreticalValueProSafetyOfficer++;
+                actualProSafetyOfficer += employee.getTotalScore();
+            }
+            if ("班长兼指挥".equals(employee.getPost())) {
+                theoreticalValueMonitorAndCommander++;
+                actualMonitorAndCommander += employee.getTotalScore();
+            }
+            if ("安全员".equals(employee.getPost())) {
+                theoreticalValueSafetyOfficer++;
+                actualSafetyOfficer += employee.getTotalScore();
+            }
+            if ("技术兼质检员".equals(employee.getPost())) {
+                theoreticalValueTechAndQualityInspector++;
+                actualTechAndQualityInspector += employee.getTotalScore();
+            }
+            if ("作业副班长".equals(employee.getPost())) {
+                theoreticalValueDeputyShiftLeader++;
+                actualDeputyShiftLeader += employee.getTotalScore();
+            }
+
+        }
+        List<SubstationEngineering> substationEngineeringList = new ArrayList<SubstationEngineering>();
+
+        SubstationEngineering substationEngineering = new SubstationEngineering();
+        //  装载VO类
+        //  项目经理
+        substationEngineering = loadVO("项目经理", theoreticalValueManager, 1D, actualManager);
+        substationEngineeringList.add(substationEngineering);
+        //  项目总工
+        substationEngineering = loadVO("项目总工", theoreticalValueEngineer, 1D, actualEngineer);
+        substationEngineeringList.add(substationEngineering);
+        //  项目质检员
+        substationEngineering = loadVO("项目质检员", theoreticalValueProQualityInspector, 1D, actualProQualityInspector);
+        substationEngineeringList.add(substationEngineering);
+        //  项目安全员
+        substationEngineering = loadVO("项目安全员", theoreticalValueProSafetyOfficer, 1D, actualProSafetyOfficer);
+        substationEngineeringList.add(substationEngineering);
+        //  班长兼指挥
+        substationEngineering = loadVO("班长兼指挥", theoreticalValueMonitorAndCommander, 0.6, actualMonitorAndCommander);
+        substationEngineeringList.add(substationEngineering);
+        //  安全员
+        substationEngineering = loadVO("安全员", theoreticalValueSafetyOfficer, 0.6, actualSafetyOfficer);
+        substationEngineeringList.add(substationEngineering);
+        //  技术兼质检员
+        substationEngineering = loadVO("技术兼质检员", theoreticalValueTechAndQualityInspector, 0.6, actualTechAndQualityInspector);
+        substationEngineeringList.add(substationEngineering);
+        //  作业副班长
+        substationEngineering = loadVO("作业副班长", theoreticalValueDeputyShiftLeader, 0.6, actualDeputyShiftLeader);
+        substationEngineeringList.add(substationEngineering);
+
+        return substationEngineeringList;
+    }
+
+
+    /**
+     * 装载 输变电工程项目部人员构成指标 VO类的方法
+     *
+     * @param post             职位
+     * @param theoreticalValue 理论值
+     * @param actual           实际值
+     * @return
+     */
+    public SubstationEngineering loadVO(String post, Integer theoreticalValue, Double personnelLineEngineering, Double actual) {
+        SubstationEngineering substationEngineering = new SubstationEngineering();
+        //岗位
+        substationEngineering.setPost(post);
+        //理论指标值
+        substationEngineering.setTheoreticalValue(theoreticalValue);
+        // 实际指标值
+        substationEngineering.setActual(Double.valueOf(String.format("%.2f", actual)));
+        //人员折算系数-线路工程
+        substationEngineering.setPersonnelLineEngineering(personnelLineEngineering);
+        //人员折算系数-变电工程
+        substationEngineering.setPersonnelSubstationEngineering(1D);
+        //理论人员指标-线路工程
+        substationEngineering.setTheoryLineEngineering(substationEngineering.getTheoreticalValue() * substationEngineering.getPersonnelLineEngineering());
+        //理论人员指标-变电工程
+        substationEngineering.setTheorySubstationEngineering(substationEngineering.getTheoreticalValue() * substationEngineering.getPersonnelSubstationEngineering());
+        //实际人员指标-线路工程
+        substationEngineering.setActualLineEngineering(Double.valueOf(String.format("%.2f", substationEngineering.getActual() * substationEngineering.getPersonnelLineEngineering())));
+        //实际人员指标-变电工程
+        substationEngineering.setActualSubstationEngineering(Double.valueOf(String.format("%.2f", substationEngineering.getActual() * substationEngineering.getPersonnelSubstationEngineering())));
+
+        return substationEngineering;
+
+    }
 }
