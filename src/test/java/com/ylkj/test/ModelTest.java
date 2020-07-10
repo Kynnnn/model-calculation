@@ -66,12 +66,14 @@ public class ModelTest {
 
         //6.计算 施工承载力
         List<ConstructionBearingCapacity> bearingCapacities = calConstructionBearingCapacity(projectTypeList, substationEngineeringList, distributionNetworkList);
-        System.out.println("=============");
-        System.out.println(JSON.toJSONString(bearingCapacities));
-
+        // System.out.println("=============");
+        // System.out.println(JSON.toJSONString(bearingCapacities));
 
         //7.计算 季度工程量及承载力
-        // List<QuarterlyQuantitiesBearing> QuarterlyQuantitiesBearing = calQuarterlyQuantitiesBearing(projectDetails);
+        List<QuarterlyQuantitiesBearing> QuarterlyQuantitiesBearing = calQuarterlyQuantitiesBearing(projectDetails);
+
+        //8.计算 综合评分
+        TotalScore totalScore = calTotalScore(QuarterlyQuantitiesBearing);
 
     }
 
@@ -1062,5 +1064,70 @@ public class ModelTest {
         capacity.setActual(actual);
 
         return capacity;
+    }
+
+    /**
+     * 计算 综合评分
+     *
+     * @param QuarterlyQuantitiesBearing 季度承载力
+     * @return
+     */
+    public TotalScore calTotalScore(List<QuarterlyQuantitiesBearing> QuarterlyQuantitiesBearing) {
+
+        /**
+         * 权重
+         */
+        Double weight1;
+        Double weight2;
+        Double weight3;
+        Double weight4;
+
+        //合计
+        Double total;
+
+
+        EnterpriseInformation enterpriseInformation = new EnterpriseInformation();
+        TotalScore totalScore = new TotalScore();
+        //季度承载力评分
+
+        //权重
+        totalScore.setWeight1("25%");
+        totalScore.setWeight2("25%");
+        totalScore.setWeight2("25%");
+        totalScore.setWeight2("25%");
+
+
+        //人员与资质匹配评分
+        if ("否".equals(enterpriseInformation.getProjectTypeEnterpriseQualification1())) {
+            totalScore.setPersonnelAndQualificationMatching(-25D);
+        } else {
+            totalScore.setPersonnelAndQualificationMatching(0D);
+        }
+
+        //设备与资质匹配评分
+        if ("否".equals(enterpriseInformation.getProjectTypeEnterpriseQualification2()) ||
+                "否".equals(enterpriseInformation.getProjectTypeEnterpriseQualification3()) ||
+                "否".equals(enterpriseInformation.getProjectTypeEnterpriseQualification4())
+        ) {
+            totalScore.setEquipmentAndQualificationMatching(-25D);
+        } else {
+            totalScore.setEquipmentAndQualificationMatching(0D);
+        }
+
+        //合计
+        weight1 = Double.valueOf(totalScore.getWeight1().split("%")[0]);
+        weight2 = Double.valueOf(totalScore.getWeight2().split("%")[0]);
+        weight3 = Double.valueOf(totalScore.getWeight3().split("%")[0]);
+        weight4 = Double.valueOf(totalScore.getWeight4().split("%")[0]);
+        total = weight1 * totalScore.getQuarterlyBearingCapacity1() +
+                weight2 * totalScore.getQuarterlyBearingCapacity2() +
+                weight3 * totalScore.getQuarterlyBearingCapacity3() +
+                weight4 * totalScore.getQuarterlyBearingCapacity4() +
+                totalScore.getPersonnelAndQualificationMatching() +
+                totalScore.getEquipmentAndQualificationMatching();
+
+        totalScore.setTotal(total);
+
+        return totalScore;
     }
 }

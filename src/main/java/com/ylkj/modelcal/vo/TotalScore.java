@@ -9,16 +9,20 @@ import lombok.Data;
 @Data
 public class TotalScore {
 
-    //季度承载力
-    private Integer QuarterlyBearingCapacity1;
+    /**
+     * 季度承载力
+     */
+    private Integer quarterlyBearingCapacity1;
 
-    private Integer QuarterlyBearingCapacity2;
+    private Integer quarterlyBearingCapacity2;
 
-    private Integer QuarterlyBearingCapacity3;
+    private Integer quarterlyBearingCapacity3;
 
-    private Integer QuarterlyBearingCapacity4;
+    private Integer quarterlyBearingCapacity4;
 
-    //权重
+    /**
+     * 权重
+     */
     private  String weight1;
 
     private  String weight2;
@@ -28,10 +32,15 @@ public class TotalScore {
     private  String weight4;
 
 
-    private  Double PersonnelAndQualificationMatching;
+    /**
+     * 人员与资质匹配评分
+     */
+    private  Double personnelAndQualificationMatching;
 
-    private  Double EquipmentAndQualificationMatching;
-
+    /**
+     * 设备与资质匹配评分
+     */
+    private  Double equipmentAndQualificationMatching;
 
 
     private Double total;
