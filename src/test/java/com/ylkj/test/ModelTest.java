@@ -59,6 +59,8 @@ public class ModelTest {
         //4.计算 输变电工程项目部人员构成指标
         List<SubstationEngineering> substationEngineeringList = calSubstationEngineering(employees);
 
+        //7.计算季度工程量及承载力
+        List<QuarterlyQuantitiesBearing>  QuarterlyQuantitiesBearing =calQuarterlyQuantitiesBearing(projectDetails);
 
     }
 
@@ -76,16 +78,17 @@ public class ModelTest {
             //循环出每个工程 一月份
             if (projectDetails.getJanuary().equals("是")) {
                 //如果百分位是0的话默认为0.0
-                if (b.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue() == 0) {
+                if (Double.parseDouble(String.format("%.2f",CalJanuary)) == 0) {
                     //一月
                     projectDetails.setCalJanuary(0.0);
                 }
                 //四舍五入
-                projectDetails.setCalJanuary(b.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue());
+                projectDetails.setCalJanuary(Double.parseDouble(String.format("%.3f",CalJanuary)));
 
             } else {
                 projectDetails.setCalJanuary(0 * projectDetails.getQuantityConversion());
             }
+            System.out.println(projectDetails.getCalJanuary());
             //循环出每个工程 二月份
             if (projectDetails.getFebruary().equals("是")) {
                 //如果百分位是0的话默认为0.0
@@ -245,7 +248,7 @@ public class ModelTest {
             }
 
 
-            log.debug(projectDetails);
+//            System.out.println(projectDetails.getCalJanuary());
         }
         return projectDetailList;
     }
@@ -320,8 +323,95 @@ public class ModelTest {
      *
      * @return
      */
-    public QuarterlyQuantitiesBearing calQuarterlyQuantitiesBearing() throws Exception {
+    public List<QuarterlyQuantitiesBearing> calQuarterlyQuantitiesBearing(List<ProjectDetails> projectDetails) throws Exception {
+        QuarterlyQuantitiesBearing quarterlyQuantitiesBearing =new QuarterlyQuantitiesBearing();
+        //取出工程信息数据
+        Double Sum1=0.0;
+        Double Sum2=0.0;
+        Double Sum3=0.0;
+        Double Sum4=0.0;
+        Double Sum5=0.0;
+        Double Sum6=0.0;
+        Double Sum7=0.0;
+        Double Sum8=0.0;
+        Double Sum9=0.0;
+        Double Sum10=0.0;
+        Double Sum11=0.0;
+        Double Sum12=0.0;
+        for (ProjectDetails projectDetail : projectDetails) {
+            //一月
+            Double SumJanuary=projectDetail.getCalJanuary();
+            //二月
+            Double SumFebruary=projectDetail.getCalFebruary();
+            //三月
+            Double SumMarch=projectDetail.getCalMarch();
+            //四月
+            Double SumApril=projectDetail.getCalApril();
+            //五月
+            Double SumMay=projectDetail.getCalMay();
+            //六月
+            Double SumJune=projectDetail.getCalJune();
+            //七月
+            Double SumJuly=projectDetail.getCalJuly();
+            //八月
+            Double SumAugust=projectDetail.getCalAugust();
+            //九月
+            Double SumSeptember=projectDetail.getCalSeptember();
+            //十月
+            Double SumOctober=projectDetail.getCalOctober();
+            //十一月
+            Double SumNovember=projectDetail.getCalNovember();
+            //十二月
+            Double SumDecember=projectDetail.getCalDecember();
 
+
+
+            Sum1+=SumJanuary;
+            Sum2+=SumFebruary;
+            Sum3+=SumMarch;
+            Sum4+=SumApril;
+            Sum5+=SumMay;
+            Sum6+=SumJune;
+            Sum7+=SumJuly;
+            Sum8+=SumAugust;
+            Sum9+=SumSeptember;
+            Sum10+=SumOctober;
+            Sum11+=SumNovember;
+            Sum12+=SumDecember;
+        }
+        //月工程量
+        quarterlyQuantitiesBearing.setJanuaryEngineering(Double.parseDouble(String.format("%.2f",Sum1)));
+
+        quarterlyQuantitiesBearing.setFebruaryEngineering(Double.parseDouble(String.format("%.2f",Sum2)));
+        quarterlyQuantitiesBearing.setMarchEngineering(Double.parseDouble(String.format("%.2f",Sum3)));
+        quarterlyQuantitiesBearing.setAprilEngineering(Double.parseDouble(String.format("%.2f",Sum4)));
+        quarterlyQuantitiesBearing.setMayEngineering(Double.parseDouble(String.format("%.2f",Sum5)));
+        quarterlyQuantitiesBearing.setJuneEngineering(Double.parseDouble(String.format("%.2f",Sum6)));
+        quarterlyQuantitiesBearing.setJulyEngineering(Double.parseDouble(String.format("%.2f",Sum7)));
+        quarterlyQuantitiesBearing.setAugustEngineering(Double.parseDouble(String.format("%.2f",Sum8)));
+        quarterlyQuantitiesBearing.setSeptemberEngineering(Double.parseDouble(String.format("%.2f",Sum9)));
+        quarterlyQuantitiesBearing.setOctoberEngineering(Double.parseDouble(String.format("%.2f",Sum10)));
+        quarterlyQuantitiesBearing.setNovemberEngineering(Double.parseDouble(String.format("%.2f",Sum11)));
+        quarterlyQuantitiesBearing.setDecemberEngineering(Double.parseDouble(String.format("%.2f",Sum12)));
+
+        //季度工程量 1-3月
+        quarterlyQuantitiesBearing.setQuarterlyEngineering1(Double.parseDouble(String.format("%.2f",(Sum1+Sum2+Sum3)/3)));
+        //4-6月
+        quarterlyQuantitiesBearing.setQuarterlyEngineering2(Double.parseDouble(String.format("%.2f",(Sum4+Sum5+Sum6)/3)));
+        //7-9月
+        quarterlyQuantitiesBearing.setQuarterlyEngineering3(Double.parseDouble(String.format("%.2f",(Sum7+Sum8+Sum9)/3)));
+        //10-12
+        quarterlyQuantitiesBearing.setQuarterlyEngineering4(Double.parseDouble(String.format("%.2f",(Sum10+Sum12+Sum12)/3)));
+
+        //取出每个季度最大的值
+
+
+        System.out.println(quarterlyQuantitiesBearing.getJanuaryEngineering());
+
+        System.out.println(Sum1);
+
+//    log.debug(quarterlyQuantitiesBearing);
+//
 
         return null;
     }

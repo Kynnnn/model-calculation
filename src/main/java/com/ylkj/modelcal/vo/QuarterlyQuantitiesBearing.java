@@ -69,6 +69,15 @@ public class QuarterlyQuantitiesBearing {
 
     private  Double QuarterlyEngineering4;
 
+    //月承载力饱和度1-4
+    private  String CalQuarterlyEngineering1;
+
+    private  String CalQuarterlyEngineering2;
+
+    private  String CalQuarterlyEngineering3;
+
+    private  String CalQuarterlyEngineering4;
+
     //季度承载力饱和度 1-4季度
     private  String QuarterlyBearingCapacitySaturation1;
 
