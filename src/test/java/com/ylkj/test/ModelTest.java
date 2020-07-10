@@ -14,6 +14,7 @@ import org.junit.Test;
 
 import java.io.FileInputStream;
 import java.lang.reflect.Field;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,9 +24,9 @@ import java.util.List;
  */
 @Log4j
 public class ModelTest {
-
     @Test
     public void test01() throws Exception {
+
         FileInputStream input = new FileInputStream("D:\\模型计算.xls");
         HSSFWorkbook wb = new HSSFWorkbook(input);
 
@@ -49,7 +50,195 @@ public class ModelTest {
         //1.计算 人员信息（项目部人员）
 
         //2.计算 工程明细表
+        calProjectDetails(projectDetails);
+    }
 
+    /**
+     * 工程明细表计算 1-12月
+     */
+    public List<ProjectDetails>  calProjectDetails(List<ProjectDetails> projectDetailList) throws Exception {
+
+
+        for (ProjectDetails projectDetails : projectDetailList) {
+            //如果 是 的话计算
+            Double CalJanuary=1 * projectDetails.getQuantityConversion();
+            BigDecimal b = new BigDecimal(CalJanuary);
+
+            //循环出每个工程 一月份
+            if (projectDetails.getJanuary().equals("是")) {
+                //如果百分位是0的话默认为0.0
+                if(b.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue()==0){
+                    //一月
+                    projectDetails.setCalJanuary(0.0);
+                }
+                //四舍五入
+                projectDetails.setCalJanuary(  b.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue());
+
+            }else{
+                projectDetails.setCalJanuary(0* projectDetails.getQuantityConversion());
+            }
+            //循环出每个工程 二月份
+            if (projectDetails.getFebruary().equals("是")) {
+                //如果百分位是0的话默认为0.0
+                if(b.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue()==0){
+
+                    //二月
+                    projectDetails.setCalFebruary(0.0);
+                }
+                //四舍五入
+                projectDetails.setCalFebruary(  b.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue());
+
+            }else{
+                projectDetails.setCalFebruary(0* projectDetails.getQuantityConversion());
+            }
+            //循环出每个工程 三月份
+            if (projectDetails.getMarch().equals("是")) {
+                //如果百分位是0的话默认为0.0
+                if(b.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue()==0){
+
+                    //三月
+                    projectDetails.setCalMarch(0.0);
+                }
+                //四舍五入
+                projectDetails.setCalMarch(  b.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue());
+
+            }else{
+                projectDetails.setCalMarch(0* projectDetails.getQuantityConversion());
+            }
+            //循环出每个工程 四月份
+            if (projectDetails.getApril().equals("是")) {
+                //如果百分位是0的话默认为0.0
+                if(b.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue()==0){
+
+                    //四月
+                    projectDetails.setCalApril(0.0);
+                }
+                //四舍五入
+                projectDetails.setCalApril(  b.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue());
+
+            }else{
+                projectDetails.setCalApril(0* projectDetails.getQuantityConversion());
+            }
+            //循环出每个工程 五月份
+            if (projectDetails.getMay().equals("是")) {
+                //如果百分位是0的话默认为0.0
+                if(b.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue()==0){
+
+                    //五月
+                    projectDetails.setCalMay(0.0);
+                }
+                //四舍五入
+                projectDetails.setCalMay(  b.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue());
+
+            }else{
+                projectDetails.setCalMay(0* projectDetails.getQuantityConversion());
+            }
+            //循环出每个工程 六月份
+            if (projectDetails.getJune().equals("是")) {
+                //如果百分位是0的话默认为0.0
+                if(b.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue()==0){
+
+                    //六月
+                    projectDetails.setCalJune(0.0);
+                }
+                //四舍五入
+                projectDetails.setCalJune(  b.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue());
+
+            }else{
+                projectDetails.setCalJune(0* projectDetails.getQuantityConversion());
+            }
+            //循环出每个工程 七月份
+            if (projectDetails.getJuly().equals("是")) {
+                //如果百分位是0的话默认为0.0
+                if(b.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue()==0){
+
+                    //七月
+                    projectDetails.setCalJuly(0.0);
+                }
+                //四舍五入
+                projectDetails.setCalJuly(  b.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue());
+
+            }else{
+                projectDetails.setCalJuly(0* projectDetails.getQuantityConversion());
+            }
+            //循环出每个工程 八月份
+            if (projectDetails.getAugus().equals("是")) {
+                //如果百分位是0的话默认为0.0
+                if(b.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue()==0){
+
+                    //八月
+                    projectDetails.setCalAugus(0.0);
+                }
+                //四舍五入
+                projectDetails.setCalAugus(  b.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue());
+
+            }else{
+                projectDetails.setCalAugus(0* projectDetails.getQuantityConversion());
+            }
+            //循环出每个工程 九月份
+            if (projectDetails.getSeptember().equals("是")) {
+                //如果百分位是0的话默认为0.0
+                if(b.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue()==0){
+
+                    //九月
+                    projectDetails.setCalSeptember(0.0);
+                }
+                //四舍五入
+                projectDetails.setCalSeptember(  b.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue());
+
+            }else{
+                projectDetails.setCalSeptember(0* projectDetails.getQuantityConversion());
+            }
+
+            //循环出每个工程 十月份
+            if (projectDetails.getOctober().equals("是")) {
+                //如果百分位是0的话默认为0.0
+                if(b.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue()==0){
+
+                    //十月
+                    projectDetails.setCalOctober(0.0);
+                }
+                //四舍五入
+                projectDetails.setCalOctober(  b.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue());
+
+            }else{
+                projectDetails.setCalOctober(0* projectDetails.getQuantityConversion());
+            }
+
+            //循环出每个工程 十一月份
+            if (projectDetails.getNovember().equals("是")) {
+                //如果百分位是0的话默认为0.0
+                if(b.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue()==0){
+
+                    //十一月
+                    projectDetails.setCalNovember(0.0);
+                }
+                //四舍五入
+                projectDetails.setCalNovember(  b.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue());
+
+            }else{
+                projectDetails.setCalNovember(0* projectDetails.getQuantityConversion());
+            }
+
+            //循环出每个工程 十二月份
+            if (projectDetails.getDecember().equals("是")) {
+                //如果百分位是0的话默认为0.0
+                if(b.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue()==0){
+
+                    //十二月
+                    projectDetails.setCalDecember(0.0);
+                }
+                //四舍五入
+                projectDetails.setCalDecember(  b.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue());
+
+            }else{
+                projectDetails.setCalDecember(0* projectDetails.getQuantityConversion());
+            }
+
+
+            log.debug(projectDetails);
+        }
+        return projectDetailList;
     }
 
 

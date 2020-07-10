@@ -46,5 +46,28 @@ public class ProjectDetails {
      */
     private Double QuantityConversion;
 
+    // 1-12 月金额
+    private  Double CalJanuary;
 
+    private  Double CalFebruary;
+
+    private  Double CalMarch;
+
+    private  Double CalApril;
+
+    private  Double CalMay;
+
+    private  Double CalJune;
+
+    private  Double CalJuly;
+
+    private  Double CalAugus;
+
+    private  Double CalSeptember;
+
+    private  Double CalOctober;
+
+    private  Double CalNovember;
+
+    private  Double CalDecember;
 }
