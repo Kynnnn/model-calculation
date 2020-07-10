@@ -3,10 +3,8 @@ package com.ylkj.test;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
-import com.ylkj.modelcal.vo.ConversionCoefficientQuantities;
-import com.ylkj.modelcal.vo.Employee;
-import com.ylkj.modelcal.vo.PersonnelAssignmentWeight;
-import com.ylkj.modelcal.vo.ProjectDetails;
+import com.ylkj.modelcal.vo.*;
+import lombok.extern.log4j.Log4j;
 import org.apache.poi.hssf.usermodel.HSSFCell;
 import org.apache.poi.hssf.usermodel.HSSFRow;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
@@ -23,6 +21,7 @@ import java.util.List;
  * @author Zhudiwei
  * @date 2020/7/9
  */
+@Log4j
 public class ModelTest {
 
     @Test
@@ -43,6 +42,9 @@ public class ModelTest {
         //工程明细表注入VO
         List<ProjectDetails> projectDetails = setVO(wb, 10, ProjectDetails.class, null);
 
+        //企业信息表注入VO
+        EnterpriseInformation enterpriseInformation = new EnterpriseInformation();
+
     }
 
     /**
@@ -51,7 +53,7 @@ public class ModelTest {
      * @param wb      工作簿对象，每个EXCEL有且仅有一个工作簿对象 {@link HSSFWorkbook}
      * @param index   sheet页的索引，从0开始 Sheet页对象{@link HSSFSheet}
      * @param clazz   需要set值的VO.class
-     * @param cellStr 需要取的cell的索引
+     * @param cellStr 需要取的cell的索引，传int类型数组或null，传null表示所有cell都要
      */
     public <T> List<T> setVO(HSSFWorkbook wb, int index, Class<T> clazz, int[] cellStr) {
         List<T> voList = new ArrayList<T>();
