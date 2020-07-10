@@ -45,7 +45,13 @@ public class ModelTest {
         //企业信息表注入VO
         EnterpriseInformation enterpriseInformation = new EnterpriseInformation();
 
+
+        //1.计算 人员信息（项目部人员）
+
+        //2.计算 工程明细表
+
     }
+
 
     /**
      * 为VO赋值
