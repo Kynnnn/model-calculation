@@ -19,7 +19,7 @@ public class Employee {
     /**
      * 从业年限
      */
-    private Integer workingAge;
+    private Double workingAge;
 
     /**
      * 职业资格
@@ -34,17 +34,17 @@ public class Employee {
     /**
      * 职业资格得分
      */
-    private Double proQualificationScore;
+    private Double proQualificationScore = 0D;
 
     /**
      * 从业年限得分
      */
-    private Double workingAgeScore;
+    private Double workingAgeScore = 0D;
 
     /**
      * 专业工作业绩得分
      */
-    private Double workExperienceScore;
+    private Double workExperienceScore = 0D;
 
     /**
      * 综合指标值

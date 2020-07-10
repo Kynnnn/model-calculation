@@ -57,21 +57,21 @@ public class PersonnelAssignmentWeight {
     /**
      * 专业工作业绩
      */
-    private String achievement;
+    private String workExperience;
 
     /**
      * 专业工作业绩权重
      */
-    private String achievementWeight;
+    private String workExperienceWeight;
 
     /**
      * 专业工作业绩赋值
      */
-    private Double achievementAssignment;
+    private Double workExperienceAssignment;
 
     /**
      * 从专业工作业绩等效值
      */
-    private Double achievementValue;
+    private Double workExperienceValue;
 
 }
